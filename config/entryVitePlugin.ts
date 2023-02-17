@@ -1,28 +1,30 @@
 import { Plugin, UserConfig } from 'vite';
 import { LoadResult, ResolveIdResult } from 'rollup';
 
-export function entryVitePlugin(): Plugin {
-	const SUFFIX = '.entry.html';
+export interface EntryVitePluginEntrypoint {
+	name: `${string}.html`;
+	scripts: Array<string>;
+	appContainer?: false
+}
+
+export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ): Plugin {
+	const files = new Set(entrypoints.map(entrypoint => entrypoint.name));
 
 	return {
 		name: 'entry-vite-plugin',
 
-		config(config: UserConfig, env: { mode: string, command: string }): UserConfig {
+		config(): UserConfig {
 			return {
 				build: {
 					rollupOptions: {
-						input: {
-							devToolsPanel: EntryType.devToolsPanel + SUFFIX,
-							devTools: EntryType.DevTools + SUFFIX,
-						},
-						// external: ['node_modules/typescript/lib/typescriptServices.js']
+						input: getInput(entrypoints)
 					}
 				}
 			}
 		},
 
 		resolveId(id: string, importer: string): ResolveIdResult {
-			if (id.endsWith(SUFFIX)) {
+			if (hasHTMLExtension(id) && files.has(id)) {
 				return id;
 			}
 
@@ -30,48 +32,48 @@ export function entryVitePlugin(): Plugin {
 		},
 
 		load(id: string): LoadResult {
-			if (!id.endsWith(SUFFIX)) {
+			if (!(hasHTMLExtension(id) && files.has(id))) {
 				return null;
 			}
 
-			const type = id.slice(0, -SUFFIX.length);
+			const entrypoint = entrypoints.find(entrypoint => entrypoint.name === id);
 
-			if (!isEntryType(type)) {
-				throw new Error(`Invalid entry type: ${type}`);
-			}
-
-			return template(type);
+			return template(entrypoint);
 		}
 	}
 }
 
-enum EntryType {
-	DevTools = 'devTools',
-	devToolsPanel = 'devToolsPanel',
-}
-
-function isEntryType(type: string): type is EntryType {
-	return Object.values(EntryType).includes(type as EntryType);
-}
-
-function template(type: EntryType): string {
+function template(entrypoint: EntryVitePluginEntrypoint): string {
+	const name = entrypoint.name.split('.')[0];
 	let body = '';
 
-	if (type === EntryType.DevTools) {
-		body = '<script src="./src/entry/devTools.ts" type="module"></script>';
-	} else if (type === EntryType.devToolsPanel) {
-		body = '<div id="app"></div>\n' +
-			'<script src="./node_modules/typescript/lib/typescriptServices.js" type="application/javascript"></script>\n' +
-			'<script src="./src/entry/devToolsPanel.ts" type="module"></script>';
+	if (entrypoint.appContainer !== false) {
+		body = '<div id="app"></div>\n';
 	}
+
+	body += entrypoint.scripts.map(script => `<script src="${script}" type="module"></script>`).join('\n');
 
 	return `<!DOCTYPE html>
 	<html>
 		<head>
-			<title>${type}</title>
+			<title>${name}</title>
 		</head>
 		<body>
 			${ body }
 		</body>
 	</html>`;
+}
+
+function getInput(entrypoints: Array<EntryVitePluginEntrypoint>): Record<string, string> {
+	const input: Record<string, string> = {};
+
+	for (const entrypoint of entrypoints) {
+		input[entrypoint.name] = entrypoint.name;
+	}
+
+	return input;
+}
+
+function hasHTMLExtension(id: string): id is `${string}.html` {
+	return id.endsWith('.html');
 }
