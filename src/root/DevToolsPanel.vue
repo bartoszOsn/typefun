@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 	import * as monaco from 'monaco-editor';
+	import { ts } from 'ts-services';
 	import 'typescript/lib/typescriptServices';
 	import { onMounted, ref } from 'vue';
 
