@@ -4,7 +4,7 @@ import { LoadResult, ResolveIdResult } from 'rollup';
 export interface EntryVitePluginEntrypoint {
 	name: `${string}.html`;
 	scripts: Array<string>;
-	appContainer?: false
+	appContainer?: false;
 }
 
 export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ): Plugin {
@@ -23,7 +23,7 @@ export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ):
 			}
 		},
 
-		resolveId(id: string, importer: string): ResolveIdResult {
+		resolveId(id: string): ResolveIdResult {
 			if (hasHTMLExtension(id) && files.has(id)) {
 				return id;
 			}

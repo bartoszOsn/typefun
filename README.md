@@ -3,7 +3,8 @@ A typescript injection browser extension.
 
 ## TO DO
 - [X] Add eslint
-- [ ] Fix eslint errors
+- [X] Fix eslint errors
+- [ ] Better types for `browser` object
 - [ ] Make editor use browser theme
 - [ ] Make this from repl to injector
   - [ ] Add a toolbar with functionality to:

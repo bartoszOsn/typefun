@@ -1,7 +1,7 @@
-import { Plugin } from 'vite';
-import { LoadResult, ResolveIdResult } from 'rollup';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
+import { Plugin } from 'vite';
+import { LoadResult, ResolveIdResult } from 'rollup';
 
 export function tsServicesPlugin(): Plugin {
 	// const RESOLVE_ID = 'node_modules/typescript/lib/typescriptServices.js';
@@ -10,7 +10,7 @@ export function tsServicesPlugin(): Plugin {
 	return {
 		name: 'ts-services-plugin',
 
-		resolveId(id: string, importer: string): ResolveIdResult {
+		resolveId(id: string): ResolveIdResult {
 			if (id === RESOLVE_ID) {
 				return id;
 			}
@@ -26,8 +26,8 @@ export function tsServicesPlugin(): Plugin {
 			const tsSevicesFilePath = resolve('node_modules/typescript/lib/typescriptServices.js');
 			const tsServices = await readFile(tsSevicesFilePath, 'utf-8');
 
-			return tsServices +
-				'\nexport { ts };';
+			return `${tsServices
+			}\nexport { ts };`;
 		}
 	}
 }
