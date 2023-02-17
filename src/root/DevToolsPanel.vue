@@ -5,8 +5,8 @@
 	import 'typescript/lib/typescriptServices';
 	import { onMounted, ref } from 'vue';
 
-	import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker'
-	import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker'
+	import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
+	import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 
 	self.MonacoEnvironment = {
 		getWorker(_, label) {
@@ -52,7 +52,7 @@
 			[]
 		);
 
-		console.log({ code, transpiled })
+		browser.devtools.inspectedWindow.eval(transpiled);
 	};
 </script>
 

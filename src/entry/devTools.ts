@@ -1,7 +1,5 @@
 export {};
 
-declare const browser: any;
-
 browser.devtools.panels.create(
 	"Editor",                      // title
 	"/vite.svg",	               // icon
