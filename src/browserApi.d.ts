@@ -1,4 +1,10 @@
 declare module browser {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const devtools: any;
+	const devtools: {
+		inspectedWindow: {
+			eval: <TReturn = unknown>(expression: string, options?: { frameURL?: string; useContentScriptContext?: boolean }) => Promise<TReturn>;
+		};
+		panels: {
+			create: (title: string, icon: string, page: string) => Promise<unknown>;
+		};
+	};
 }
