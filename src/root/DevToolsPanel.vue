@@ -7,6 +7,7 @@ import { onMounted, ref } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
+import { getBrowserMode } from '../utils/getBrowserMode';
 
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -34,7 +35,7 @@ onMounted(() => {
 	editor = monaco.editor.create(editorRef.value!, {
 		value: 'console.log("Hello world")',
 		language: 'javascript',
-
+		theme: `vs-${getBrowserMode()}`
 	});
 });
 
@@ -73,6 +74,7 @@ const log: () => void = () => {
 
 		display: flex;
 		flex-direction: column;
+		gap: 4px;
 	}
 
 	.editor {

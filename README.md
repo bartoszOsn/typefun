@@ -5,7 +5,7 @@ A typescript injection browser extension.
 - [X] Add eslint
 - [X] Fix eslint errors
 - [X] Better types for `browser` object
-- [ ] Make editor use browser theme
+- [X] Make editor use browser theme
 - [ ] Make this from repl to injector
   - [ ] Add a toolbar with functionality to:
     - [ ] Rename and save script

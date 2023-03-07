@@ -27,6 +27,6 @@ body {
     max-width: unset;
 }
 
-button {
+button, input {
     margin: 0;
 }
