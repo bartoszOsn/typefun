@@ -58,6 +58,9 @@ const log: () => void = () => {
 
 <template>
 	<div class="dev-tools">
+		<div class="toolbar">
+			<input value="Project value" />
+		</div>
 		<div class="editor" ref="editorRef"></div>
 		<button @click="log">Run</button>
 	</div>

@@ -57,6 +57,7 @@ function template(entrypoint: EntryVitePluginEntrypoint): string {
 	<html>
 		<head>
 			<title>${name}</title>
+			<link rel="stylesheet" href="node_modules/water.css/out/water.min.css">
 		</head>
 		<body>
 			${ body }
