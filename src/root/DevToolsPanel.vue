@@ -8,6 +8,7 @@ import { onMounted, ref } from 'vue';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import { getBrowserMode } from '../utils/getBrowserMode';
+import { getExtensionApi } from '../utils/extensionApi';
 
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -53,17 +54,21 @@ const log: () => void = () => {
 		[]
 	);
 
-	browser.devtools.inspectedWindow.eval(transpiled);
+	getExtensionApi().devtools.inspectedWindow.eval(transpiled);
 };
 </script>
 
 <template>
 	<div class="dev-tools">
-		<div class="toolbar">
-			<input value="Project value" />
-		</div>
 		<div class="editor" ref="editorRef"></div>
-		<button @click="log">Run</button>
+		<div class="toolbar">
+			<select>
+				<option>Hello World</option>
+				<option>remove 3rd column</option>
+			</select>
+			<button class="manage-button">Manage script</button>
+			<button class="run-button" @click="log">Run</button>
+		</div>
 	</div>
 </template>
 
@@ -80,5 +85,19 @@ const log: () => void = () => {
 	.editor {
 		width: 100%;
 		height: 100%;
+	}
+
+	.toolbar {
+		display: flex;
+		gap: 4px;
+		margin: 0 4px 4px 4px;
+	}
+
+	.run-button {
+		flex-grow: 1;
+	}
+
+	.manage-button {
+		flex-grow: 0;
 	}
 </style>

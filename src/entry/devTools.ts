@@ -1,10 +1,13 @@
+import { getExtensionApi } from '../utils/extensionApi';
+
 export {};
 
-browser.devtools.panels.create(
+getExtensionApi().devtools.panels.create(
 	'Editor',                      // title
 	'/vite.svg',	               // icon
 	'../devToolsPanel.html'		   // content
-).then(() => {
-	// newPanel.onShown.addListener(initialisePanel);
-	// newPanel.onHidden.addListener(unInitialisePanel);
-});
+)
+	// .then(() => {
+		// newPanel.onShown.addListener(initialisePanel);
+		// newPanel.onHidden.addListener(unInitialisePanel);
+// });

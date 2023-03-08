@@ -7,11 +7,5 @@ A typescript injection browser extension.
 - [X] Better types for `browser` object
 - [X] Make editor use browser theme
 - [ ] Make this from repl to injector
-  - [ ] Add a toolbar with functionality to:
-    - [ ] Rename and save script
-    - [ ] change script execution settings
-    - [ ] Add new script
-    - [ ] Delete script
-    - [ ] Checkout to other script
-    - [ ] Run script
-    - [ ] Open editor in new tab
+  - [ ] Add a toolbar with functionality with select to select script, button that opens "manage script popup" and button that runs script.
+  - [ ] Add a "manage script popup" with a list of scripts and a button to add a new script.
