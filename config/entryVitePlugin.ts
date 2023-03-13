@@ -1,8 +1,9 @@
 import { Plugin, UserConfig } from 'vite';
 import { LoadResult, ResolveIdResult } from 'rollup';
+import { HTMLFileName } from '../src/HTMLFileNames';
 
 export interface EntryVitePluginEntrypoint {
-	name: `${string}.html`;
+	name: HTMLFileName;
 	scripts: Array<string>;
 	appContainer?: false;
 }
