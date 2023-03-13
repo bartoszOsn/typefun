@@ -1,6 +1,6 @@
 import { Plugin, UserConfig } from 'vite';
 import { LoadResult, ResolveIdResult } from 'rollup';
-import { HTMLFileName } from '../src/HTMLFileNames';
+import { HTMLFileName, HTMLFileNames } from '../src/HTMLFileNames';
 
 export interface EntryVitePluginEntrypoint {
 	name: HTMLFileName;
@@ -25,7 +25,7 @@ export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ):
 		},
 
 		resolveId(id: string): ResolveIdResult {
-			if (hasHTMLExtension(id) && files.has(id)) {
+			if (isHTMLFileName(id) && files.has(id)) {
 				return id;
 			}
 
@@ -33,7 +33,7 @@ export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ):
 		},
 
 		load(id: string): LoadResult {
-			if (!(hasHTMLExtension(id) && files.has(id))) {
+			if (!(isHTMLFileName(id) && files.has(id))) {
 				return null;
 			}
 
@@ -58,7 +58,6 @@ function template(entrypoint: EntryVitePluginEntrypoint): string {
 	<html>
 		<head>
 			<title>${name}</title>
-			<link rel="stylesheet" href="node_modules/water.css/out/water.min.css">
 		</head>
 		<body>
 			${ body }
@@ -76,6 +75,6 @@ function getInput(entrypoints: Array<EntryVitePluginEntrypoint>): Record<string,
 	return input;
 }
 
-function hasHTMLExtension(id: string): id is `${string}.html` {
-	return id.endsWith('.html');
+function isHTMLFileName(id: string): id is HTMLFileName {
+	return Object.values(HTMLFileNames).includes(id as HTMLFileName);
 }

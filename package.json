@@ -13,8 +13,7 @@
     "@vscode/webview-ui-toolkit": "^1.2.1",
     "eslint-plugin-vue": "^9.9.0",
     "monaco-editor": "^0.35.0",
-    "vue": "^3.2.45",
-    "water.css": "^2.1.1"
+    "vue": "^3.2.45"
   },
   "devDependencies": {
     "@bartoszosn/eslint-config-personal": "https://github.com/bartoszOsn/eslint-config-personal.git",
