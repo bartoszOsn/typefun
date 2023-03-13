@@ -1937,10 +1937,10 @@ vue@^3.2.45:
     "@vue/server-renderer" "3.2.47"
     "@vue/shared" "3.2.47"
 
-water.css@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/water.css/-/water.css-2.1.1.tgz#ee6fe833a313a3a2edb588a57ed62b3e31dedd18"
-  integrity sha512-gkO5byC+pZ7ndEV18hs/RmxKoDtEZXx06tZU4ocI3IBdv4xV64tlhjIFbDjurysRnNkiy2oQTr8PakRyzZWPJw==
+vuetify@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.1.8.tgz#15a1b1713d1374c87f1a65dabaf185e820f410f6"
+  integrity sha512-yODCnRxERSvcBwC6qPiySVhmZzNZ2Yme6b2lNLY1G8W/hbipAtbTCFVGB4ZY/qY7D7JNQBxzgVfZme7bDY9ZrQ==
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"

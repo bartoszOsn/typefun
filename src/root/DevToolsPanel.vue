@@ -69,12 +69,9 @@ const openManageScript: () => void = () => {
 	<div class="dev-tools">
 		<div class="editor" ref="editorRef"></div>
 		<div class="toolbar">
-			<select>
-				<option>Hello World</option>
-				<option>remove 3rd column</option>
-			</select>
-			<button class="manage-button" @click="openManageScript">Manage script</button>
-			<button class="run-button" @click="log">Run</button>
+			<v-select density="compact" :items="['Hello World', 'remove 3rd column']"></v-select>
+			<v-btn class="manage-button" @click="openManageScript">Manage script</v-btn>
+			<v-btn class="run-button" @click="log">Run</v-btn>
 		</div>
 	</div>
 </template>
