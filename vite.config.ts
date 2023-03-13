@@ -16,6 +16,10 @@ export default defineConfig({
 			{
 				name: HTMLFileNames.devToolsPanel,
 				scripts: ['./src/entry/devToolsPanel.ts']
+			},
+			{
+				name: HTMLFileNames.manageScripts,
+				scripts: ['./src/entry/manageScripts.ts']
 			}
 		]),
 		vue(),

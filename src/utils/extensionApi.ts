@@ -7,6 +7,9 @@ export interface ExtensionApi {
 			create: (title: string, icon: string, page: string) => Promise<unknown>;
 		};
 	};
+	tabs: {
+		create(options: { url: string; active?: boolean; index?: number; openerTabId?: number; pinned?: boolean; windowId?: number; }): Promise<unknown>;
+	}
 }
 
 declare const browser: ExtensionApi | undefined;

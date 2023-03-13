@@ -9,6 +9,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import { getBrowserMode } from '../utils/getBrowserMode';
 import { getExtensionApi } from '../utils/extensionApi';
+import { HTMLFileNames } from '../HTMLFileNames';
 
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -56,6 +57,12 @@ const log: () => void = () => {
 
 	getExtensionApi().devtools.inspectedWindow.eval(transpiled);
 };
+
+const openManageScript: () => void = () => {
+	getExtensionApi().tabs.create({
+		url: HTMLFileNames.manageScripts
+	});
+};
 </script>
 
 <template>
@@ -66,7 +73,7 @@ const log: () => void = () => {
 				<option>Hello World</option>
 				<option>remove 3rd column</option>
 			</select>
-			<button class="manage-button">Manage script</button>
+			<button class="manage-button" @click="openManageScript">Manage script</button>
 			<button class="run-button" @click="log">Run</button>
 		</div>
 	</div>
