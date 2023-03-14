@@ -1,50 +1,14 @@
 <script setup lang="ts">
 
-import * as monaco from 'monaco-editor';
 import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
-import { onMounted, ref } from 'vue';
-
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
-import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
-import { getBrowserMode } from '../utils/getBrowserMode';
 import { getExtensionApi } from '../utils/extensionApi';
 import { HTMLFileNames } from '../HTMLFileNames';
+import Editor from '../components/editor.vue';
 
-self.MonacoEnvironment = {
-	getWorker(_, label) {
-		if (label === 'typescript' || label === 'javascript') {
-			return new TsWorker()
-		}
-		return new EditorWorker()
-	}
-}
-const editorRef = ref<HTMLDivElement | null>(null);
-let editor: ReturnType<typeof monaco.editor.create> | null = null;
-
-onMounted(() => {
-	monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-		noSemanticValidation: true,
-		noSyntaxValidation: false,
-	});
-
-	monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-		target: monaco.languages.typescript.ScriptTarget.ESNext,
-		allowNonTsExtensions: true,
-		lib: ['esnext', 'dom'],
-	});
-
-	editor = monaco.editor.create(editorRef.value!, {
-		value: 'console.log("Hello world")',
-		language: 'javascript',
-		theme: `vs-${getBrowserMode()}`
-	});
-});
+let code = 'console.log("message")';
 
 const log: () => void = () => {
-	if (!editor) return;
-
-	const code = editor.getValue();
 	const transpiled = ts.transpile(
 		code,
 		{
@@ -67,7 +31,7 @@ const openManageScript: () => void = () => {
 
 <template>
 	<div class="dev-tools">
-		<div class="editor" ref="editorRef"></div>
+		<editor v-model:code="code" />
 		<div class="toolbar">
 			<v-select density="compact" :items="['Hello World', 'remove 3rd column']"></v-select>
 			<v-btn class="manage-button" @click="openManageScript">Manage script</v-btn>
@@ -84,11 +48,6 @@ const openManageScript: () => void = () => {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
-	}
-
-	.editor {
-		width: 100%;
-		height: 100%;
 	}
 
 	.toolbar {
