@@ -14,7 +14,16 @@
   -webkit-text-size-adjust: 100%;
 }
 
-body {
+html {
+    overflow-y: hidden !important;
+}
+
+body, #app {
   margin: 0;
     min-height: calc(100vh - 18px);
+}
+
+#app {
+    display: flex;
+    position: relative;
 }

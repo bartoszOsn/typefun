@@ -47,12 +47,16 @@ onMounted(() => {
 	const editor = monaco.editor.create(editorDomElement, {
 		value: props.code,
 		language: 'javascript',
-		theme: `vs-${getBrowserMode()}`
+		theme: `vs-${getBrowserMode()}`,
+		automaticLayout: true
 	});
 
 	const disposeOnModelChange = editor.getModel()?.onDidChangeContent(() => {
 		emit('update:code', editor.getModel()?.getValue() ?? '');
 	});
+
+
+	editor.layout({ width: 0, height: 0 })
 
 	return () => {
 		disposeOnModelChange?.dispose();
@@ -67,7 +71,6 @@ onMounted(() => {
 
 <style scoped>
 .editor {
-	width: 100%;
-	height: 100%;
+	flex-grow: 1;
 }
 </style>
