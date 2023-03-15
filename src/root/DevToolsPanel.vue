@@ -31,10 +31,37 @@ const openManageScript: () => void = () => {
 
 <template>
 	<v-app>
-		<v-app-bar location="bottom">
-			<v-select density="compact" :items="['Hello World', 'remove 3rd column']"></v-select>
-			<v-btn class="manage-button" @click="openManageScript">Manage script</v-btn>
-			<v-btn class="run-button" @click="log">Run</v-btn>
+		<v-app-bar>
+			<v-app-bar-title>
+				<template v-slot:text>Hello world!</template>
+
+				<v-menu>
+					<template v-slot:activator="{ props }">
+						<v-btn icon="mdi-chevron-down" v-bind="props"></v-btn>
+					</template>
+					<v-list>
+						<v-list-item>
+							<v-list-item-title>Hello world!</v-list-item-title>
+						</v-list-item>
+						<v-list-item>
+							<v-list-item-title>remove 3rd column</v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-menu>
+			</v-app-bar-title>
+			<template v-slot:append>
+				<v-tooltip text="Manage scripts" location="top">
+					<template  v-slot:activator="{ props }">
+						<v-btn icon="mdi-exit-to-app" @click="openManageScript" v-bind="props"></v-btn>
+					</template>
+				</v-tooltip>
+
+				<v-tooltip text="Run script" location="top">
+					<template  v-slot:activator="{ props }">
+						<v-btn icon="mdi-play" @click="log" v-bind="props"></v-btn>
+					</template>
+				</v-tooltip>
+			</template>
 		</v-app-bar>
 		<v-main class="main-container">
 			<editor v-model:code="code" />
@@ -43,32 +70,9 @@ const openManageScript: () => void = () => {
 </template>
 
 <style scoped>
-	/*.dev-tools {*/
-	/*	width: 100%;*/
-	/*	height: calc(100vh - 18px);;*/
-
-	/*	display: flex;*/
-	/*	flex-direction: column;*/
-	/*	gap: 4px;*/
-	/*}*/
-
-	/*.toolbar {*/
-	/*	display: flex;*/
-	/*	gap: 4px;*/
-	/*	margin: 0 4px 4px 4px;*/
-	/*}*/
-
 	.main-container {
 		display: flex;
 		align-items: stretch;
 		justify-content: stretch;
-	}
-
-	.run-button {
-		flex-grow: 1;
-	}
-
-	.manage-button {
-		flex-grow: 0;
 	}
 </style>
