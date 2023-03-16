@@ -1,7 +1,9 @@
-export {}
+import '../../node_modules/typescript/lib/typescriptServices.js'
+import { createApp } from 'vue'
+import '../style.css'
+import { vuetify } from '../plugins/vuetify';
+import ManageScripts from '../root/ManageScripts.vue';
 
-const appContainer = document.body.querySelector('#app');
-
-if (appContainer) {
-	appContainer.innerHTML = '<h1>Manage Scripts</h1>';
-}
+createApp(ManageScripts)
+	.use(vuetify)
+	.mount('#app')
