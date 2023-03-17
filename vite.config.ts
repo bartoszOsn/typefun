@@ -20,6 +20,10 @@ export default defineConfig({
 			{
 				name: HTMLFileNames.manageScripts,
 				scripts: ['./src/entry/manageScripts.ts']
+			},
+			{
+				name: 'shimConsoleContentScript',
+				path: './src/entry/shimConsoleContentScript.ts'
 			}
 		]),
 		vue(),
