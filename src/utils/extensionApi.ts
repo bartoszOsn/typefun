@@ -9,7 +9,15 @@ export interface ExtensionApi {
 	};
 	tabs: {
 		create(options: { url: string; active?: boolean; index?: number; openerTabId?: number; pinned?: boolean; windowId?: number; }): Promise<unknown>;
-	}
+	};
+	runtime: {
+		onMessage: {
+			addListener: (callback: (message: any) => void) => void;
+			removeListener: (callback: (message: any) => void) => void;
+		};
+		sendMessage: (message: any, targetOrigin?: string) => void;
+		getURL: (path: string) => string;
+	};
 }
 
 declare const browser: ExtensionApi | undefined;

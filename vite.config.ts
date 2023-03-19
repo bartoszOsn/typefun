@@ -24,6 +24,10 @@ export default defineConfig({
 			{
 				name: 'shimConsoleContentScript',
 				path: './src/entry/shimConsoleContentScript.ts'
+			},
+			{
+				name: 'shimConsolePageScript',
+				path: './src/entry/shimConsolePageScript.ts'
 			}
 		]),
 		vue(),
