@@ -6,7 +6,7 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*"],
-			"js": ["shimConsoleContentScript.js"],
+			"js": ["browser-polyfill.min.js", "shimConsoleContentScript.js"],
 			"run_at": "document_end"
 		}
 	],

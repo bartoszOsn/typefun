@@ -1,14 +1,14 @@
-import { getExtensionApi } from '../utils/extensionApi';
+import browser from 'webextension-polyfill';
 import { HTMLFileNames } from '../HTMLFileNames';
 
 export {};
 
-getExtensionApi().devtools.panels.create(
+browser.devtools.panels.create(
 	'Editor',                      		// title
 	'/vite.svg',	               			// icon
 	`../${HTMLFileNames.devToolsPanel}`	// content
 )
-	// .then(() => {
+	.then(() => {
 		// newPanel.onShown.addListener(initialisePanel);
 		// newPanel.onHidden.addListener(unInitialisePanel);
-// });
+});

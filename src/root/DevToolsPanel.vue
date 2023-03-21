@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
+import browser from 'webextension-polyfill';
 import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
-import { getExtensionApi } from '../utils/extensionApi';
 import { HTMLFileNames } from '../HTMLFileNames';
 import Editor from '../components/editor.vue';
 import Console from '../components/console.vue';
@@ -21,11 +20,11 @@ const log: () => void = () => {
 		[]
 	);
 
-	getExtensionApi().devtools.inspectedWindow.eval(transpiled);
+	browser.devtools.inspectedWindow.eval(transpiled);
 };
 
 const openManageScript: () => void = () => {
-	getExtensionApi().tabs.create({
+	browser.tabs.create({
 		url: HTMLFileNames.manageScripts
 	});
 };

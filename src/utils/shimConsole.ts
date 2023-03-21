@@ -1,5 +1,4 @@
-import { getExtensionApi } from './extensionApi';
-
+import browser from 'webextension-polyfill';
 export async function subscribeRuntimeConsole(observer: (event: ConsoleEvent) => void): Promise<() => void> {
 
 	const callback = (message: any) => {
@@ -8,8 +7,8 @@ export async function subscribeRuntimeConsole(observer: (event: ConsoleEvent) =>
 		}
 	}
 
-	getExtensionApi().runtime.onMessage.addListener(callback);
-	return () => getExtensionApi().runtime.onMessage.removeListener(callback);
+	browser.runtime.onMessage.addListener(callback);
+	return () => browser.runtime.onMessage.removeListener(callback);
 }
 
 export interface ConsoleEvent {
