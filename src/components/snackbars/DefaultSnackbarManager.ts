@@ -4,7 +4,10 @@ import { SnackbarManagerMessageProvider } from './SnackbarManagerMessageProvider
 
 export class DefaultSnackbarManager extends SnackbarManager implements SnackbarManagerMessageProvider {
 	static readonly SNACKBAR_TIMEOUT = 5000;
-	private readonly messages = ref<Array<SnackbarState>>([]);
+
+	// Cast to Ref<Array<SnackbarState>> is necessary. See:
+	// https://github.com/vuejs/core/issues/2136#issuecomment-908269949
+	private readonly messages = ref<Array<SnackbarState>>([]) as Ref<Array<SnackbarState>>;
 
 	public addMessage(message: SnackbarMessage): void {
 		const timeoutId = setTimeout(() => {
