@@ -3,26 +3,26 @@ import { useSnackbarManager } from './snackbar-hooks';
 import { SnackbarMessageType } from './SnackbarManager';
 import { isSnackbarManagerMessageProvider } from './SnackbarManagerMessageProvider';
 
-	const snackbarManager = useSnackbarManager();
+const snackbarManager = useSnackbarManager();
 
-	if (!isSnackbarManagerMessageProvider(snackbarManager)) {
-		throw new Error('SnackbarManager is not a message provider');
+if (!isSnackbarManagerMessageProvider(snackbarManager)) {
+	throw new Error('SnackbarManager is not a message provider');
+}
+
+const messages = snackbarManager.getMessages();
+
+function getAlertType(type: SnackbarMessageType): 'info' | 'warning' | 'error' {
+	switch (type) {
+		case SnackbarMessageType.info:
+			return 'info';
+		case SnackbarMessageType.warning:
+			return 'warning';
+		case SnackbarMessageType.error:
+			return 'error';
+		default:
+			return 'info'
 	}
-
-	const messages = snackbarManager.getMessages();
-
-	function getAlertType(type: SnackbarMessageType): 'info' | 'warning' | 'error' {
-		switch (type) {
-			case SnackbarMessageType.info:
-				return 'info';
-			case SnackbarMessageType.warning:
-				return 'warning';
-			case SnackbarMessageType.error:
-				return 'error';
-			default:
-				return 'info'
-		}
-	}
+}
 </script>
 
 <template>

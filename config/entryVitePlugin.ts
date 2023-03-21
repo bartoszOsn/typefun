@@ -1,7 +1,7 @@
+import * as path from 'path';
 import { Plugin, UserConfig } from 'vite';
 import { LoadResult, ResolveIdResult } from 'rollup';
 import { HTMLFileName, HTMLFileNames } from '../src/HTMLFileNames';
-import * as path from 'path';
 
 export type HTMLEntryVitePluginEntrypoint = {
 	name: HTMLFileName;
@@ -54,7 +54,7 @@ export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ):
 			if (isTSEntryVitePluginEntrypoint(entrypoint)) {
 				return {
 					id: entrypoint.path,
-					meta: meta
+					meta
 				};
 			}
 
@@ -84,7 +84,7 @@ export function entryVitePlugin(entrypoints: Array<EntryVitePluginEntrypoint> ):
 
 				let entrypoint: EntryVitePluginEntrypoint | undefined;
 
-				for (let moduleId of chunk.moduleIds) {
+				for (const moduleId of chunk.moduleIds) {
 					entrypoint = entrypoints.find(
 						entrypoint => isTSEntryVitePluginEntrypoint(entrypoint) && entrypoint.path === moduleId
 					);

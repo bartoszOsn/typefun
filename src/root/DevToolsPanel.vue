@@ -9,7 +9,7 @@ import { useConsole } from '../hooks/useConsole';
 
 const { displayEvent } = useConsole();
 
-let code = 'console.log("Hello World!")';
+const code = 'console.log("Hello World!")';
 
 const log: () => void = () => {
 	const transpiled = ts.transpile(
@@ -25,7 +25,7 @@ const log: () => void = () => {
 	browser.devtools.inspectedWindow.eval(transpiled)
 		.then(([result, exception]) => {
 			if (!result && exception && exception.isException) {
-				displayEvent({ eventType: 'exception', message: exception.value});
+				displayEvent({ eventType: 'exception', message: exception.value });
 			}
 		})
 };

@@ -1,18 +1,18 @@
+import { onMounted } from 'vue';
 import { useSnackbarManager } from '../components/snackbars/snackbar-hooks';
 import { ConsoleEvent, subscribeRuntimeConsole } from '../utils/shimConsole';
 import { SnackbarMessage, SnackbarMessageType } from '../components/snackbars/SnackbarManager';
-import { onMounted } from 'vue';
 
 export function useConsole() {
 	const snackbarManager = useSnackbarManager();
 
 	function consoleEventToSnackbarMessage(event: ConsoleEvent): SnackbarMessage {
 		const typeMap: Record<ConsoleEvent['eventType'], SnackbarMessageType> = {
-			'log': SnackbarMessageType.info,
-			'info': SnackbarMessageType.info,
-			'warn': SnackbarMessageType.warning,
-			'error': SnackbarMessageType.error,
-			'exception': SnackbarMessageType.error
+			log: SnackbarMessageType.info,
+			info: SnackbarMessageType.info,
+			warn: SnackbarMessageType.warning,
+			error: SnackbarMessageType.error,
+			exception: SnackbarMessageType.error
 		}
 
 		return new SnackbarMessage(typeMap[event.eventType], event.message);

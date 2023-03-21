@@ -11,4 +11,4 @@ browser.devtools.panels.create(
 	.then(() => {
 		// newPanel.onShown.addListener(initialisePanel);
 		// newPanel.onHidden.addListener(unInitialisePanel);
-});
+	});

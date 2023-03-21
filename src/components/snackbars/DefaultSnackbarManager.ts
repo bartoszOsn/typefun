@@ -18,7 +18,7 @@ export class DefaultSnackbarManager extends SnackbarManager implements SnackbarM
 	}
 
 	public clearMessages(): void {
-		for (let messageState of this.messages.value) {
+		for (const messageState of this.messages.value) {
 			clearTimeout(messageState.timeoutId);
 		}
 		this.messages.value = [];
@@ -31,7 +31,7 @@ export class DefaultSnackbarManager extends SnackbarManager implements SnackbarM
 	public removeMessage(message: SnackbarMessage): void {
 		const newMessages: Array<SnackbarState> = [];
 
-		for (let messageState of this.messages.value) {
+		for (const messageState of this.messages.value) {
 			if (messageState.message.messageId.equals(message.messageId)) {
 				clearTimeout(messageState.timeoutId);
 				continue;

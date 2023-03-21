@@ -2,7 +2,7 @@
 
 import Editor from '../components/editor.vue';
 
-let code = 'console.log(\'Hello World!\')';
+const code = 'console.log(\'Hello World!\')';
 </script>
 
 <template>

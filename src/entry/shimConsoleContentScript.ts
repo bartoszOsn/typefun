@@ -13,7 +13,7 @@ pageScript.src = browser.runtime.getURL('shimConsolePageScript.js');
 document.head.appendChild(pageScript);
 
 interface ConsoleEventEvent extends Event {
-	detail: ConsoleEvent
+	detail: ConsoleEvent;
 }
 
 document.addEventListener(eventName, (event) => {
