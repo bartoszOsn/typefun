@@ -2,7 +2,7 @@ export {};
 
 (() => {
 	const eventName = 'console-event';
-	function dispatchConsoleEvent(eventType: string, args: Array<unknown>) {
+	function dispatchConsoleEvent(eventType: string, args: Array<unknown>): void {
 		const event = new CustomEvent(eventName, {
 			detail: {
 				eventType,

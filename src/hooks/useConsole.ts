@@ -3,7 +3,11 @@ import { useSnackbarManager } from '../components/snackbars/snackbar-hooks';
 import { ConsoleEvent, subscribeRuntimeConsole } from '../utils/shimConsole';
 import { SnackbarMessage, SnackbarMessageType } from '../components/snackbars/SnackbarManager';
 
-export function useConsole() {
+export interface ConsoleHook {
+	displayEvent(consoleEvent: ConsoleEvent): void;
+}
+
+export function useConsole(): ConsoleHook {
 	const snackbarManager = useSnackbarManager();
 
 	function consoleEventToSnackbarMessage(event: ConsoleEvent): SnackbarMessage {

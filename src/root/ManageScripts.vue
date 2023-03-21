@@ -1,6 +1,6 @@
 <script lang="ts" setup="">
 
-import Editor from '../components/editor.vue';
+import Editor from '../components/ScriptEditor.vue';
 
 const code = 'console.log(\'Hello World!\')';
 </script>

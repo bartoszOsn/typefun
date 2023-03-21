@@ -1,13 +1,14 @@
 export class UniqueId {
-	private static nextId = 0;
 
-	public static get() {
-		return new UniqueId(this.nextId++);
-	}
+	private static nextId = 0;
 
 	private constructor(private readonly id: number) {}
 
-	public toString() {
+	public static get(): UniqueId {
+		return new UniqueId(this.nextId++);
+	}
+
+	public toString(): string {
 		return `[UniqueId ${this.id}]`;
 	}
 
