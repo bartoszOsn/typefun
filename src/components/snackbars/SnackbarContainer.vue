@@ -1,8 +1,13 @@
 <script lang="ts" setup="">
 import { useSnackbarManager } from './snackbar-hooks';
-	import { SnackbarMessageType } from './SnackbarManager';
+import { SnackbarMessageType } from './SnackbarManager';
+import { isSnackbarManagerMessageProvider } from './SnackbarManagerMessageProvider';
 
 	const snackbarManager = useSnackbarManager();
+
+	if (!isSnackbarManagerMessageProvider(snackbarManager)) {
+		throw new Error('SnackbarManager is not a message provider');
+	}
 
 	const messages = snackbarManager.getMessages();
 

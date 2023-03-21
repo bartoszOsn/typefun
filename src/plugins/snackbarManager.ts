@@ -1,6 +1,6 @@
-import { Plugin, provide } from 'vue';
-import { DefaultSnackbarManager } from '../components/snackbars/SnackbarManager';
+import { Plugin } from 'vue';
 import { snackbarManagerSymbol } from '../components/snackbars/snackbar-hooks';
+import { DefaultSnackbarManager } from '../components/snackbars/DefaultSnackbarManager';
 
 export const snackbarManager: Plugin = {
 	install(app) {
