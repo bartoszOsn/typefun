@@ -1,6 +1,9 @@
 <script lang="ts" setup="">
 
 import Editor from '../components/ScriptEditor.vue';
+import { useScriptsStore } from '../scriptsStore';
+
+const scriptsStore = useScriptsStore();
 
 const code = 'console.log(\'Hello World!\')';
 </script>
@@ -10,8 +13,9 @@ const code = 'console.log(\'Hello World!\')';
 		<v-navigation-drawer>
 			<v-list >
 				<v-list-subheader>SCRIPTS</v-list-subheader>
-				<v-list-item :value="1" title="Hello world"></v-list-item>
-				<v-list-item :value="2" title="remove 3rd column"></v-list-item>
+				<v-list-item v-for="scriptName in scriptsStore.scriptNames"
+							 :value="scriptName.id"
+							 :title="scriptName.name" />
 			</v-list>
 
 			<template v-slot:append>
