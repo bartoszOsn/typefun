@@ -4,8 +4,10 @@ import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
 import { HTMLFileNames } from '../HTMLFileNames';
 import Editor from '../components/editor.vue';
-import Console from '../components/console.vue';
 import SnackbarContainer from '../components/snackbars/SnackbarContainer.vue';
+import { useConsole } from '../hooks/useConsole';
+
+const { displayEvent } = useConsole();
 
 let code = 'console.log("Hello World!")';
 
@@ -20,7 +22,12 @@ const log: () => void = () => {
 		[]
 	);
 
-	browser.devtools.inspectedWindow.eval(transpiled);
+	browser.devtools.inspectedWindow.eval(transpiled)
+		.then(([result, exception]) => {
+			if (!result && exception && exception.isException) {
+				displayEvent({ eventType: 'exception', message: exception.value});
+			}
+		})
 };
 
 const openManageScript: () => void = () => {
@@ -69,7 +76,6 @@ const openManageScript: () => void = () => {
 				<editor v-model:code="code" />
 			</v-main>
 		</v-app>
-		<console />
 	</SnackbarContainer>
 </template>
 

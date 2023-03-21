@@ -1,15 +1,7 @@
 import { DefaultSnackbarManager, SnackbarManager } from './SnackbarManager';
 import { inject, InjectionKey, provide } from 'vue';
 
-const snackbarManagerSymbol = Symbol('snackbarManager') as InjectionKey<SnackbarManager>;
-
-export function provideSnackbarManager(): DefaultSnackbarManager {
-  const snackbarManager = new DefaultSnackbarManager();
-
-  provide(snackbarManagerSymbol, snackbarManager);
-
-  return snackbarManager;
-}
+export const snackbarManagerSymbol = Symbol('snackbarManager') as InjectionKey<SnackbarManager>;
 
 export function useSnackbarManager(): SnackbarManager {
 	  const snackbarManager = inject(snackbarManagerSymbol);

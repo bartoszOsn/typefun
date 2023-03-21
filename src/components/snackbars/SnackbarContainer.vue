@@ -1,8 +1,8 @@
 <script lang="ts" setup="">
-	import { provideSnackbarManager } from './snackbar-hooks';
+import { useSnackbarManager } from './snackbar-hooks';
 	import { SnackbarMessageType } from './SnackbarManager';
 
-	const snackbarManager = provideSnackbarManager();
+	const snackbarManager = useSnackbarManager();
 
 	const messages = snackbarManager.getMessages();
 

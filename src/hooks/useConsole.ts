@@ -1,9 +1,9 @@
-<script lang="ts" setup="">
-import { onMounted, ref } from 'vue';
+import { useSnackbarManager } from '../components/snackbars/snackbar-hooks';
 import { ConsoleEvent, subscribeRuntimeConsole } from '../utils/shimConsole';
-import { useSnackbarManager } from './snackbars/snackbar-hooks';
-import { SnackbarMessage, SnackbarMessageType } from './snackbars/SnackbarManager';
-	// TODO: change into a hook.
+import { SnackbarMessage, SnackbarMessageType } from '../components/snackbars/SnackbarManager';
+import { onMounted } from 'vue';
+
+export function useConsole() {
 	const snackbarManager = useSnackbarManager();
 
 	function consoleEventToSnackbarMessage(event: ConsoleEvent): SnackbarMessage {
@@ -24,11 +24,10 @@ import { SnackbarMessage, SnackbarMessageType } from './snackbars/SnackbarManage
 			snackbarManager.addMessage(consoleEventToSnackbarMessage(event));
 		});
 	});
-</script>
 
-<template>
-</template>
-
-<style scoped>
-
-</style>
+	return {
+		displayEvent(consoleEvent: ConsoleEvent): void {
+			snackbarManager.addMessage(consoleEventToSnackbarMessage(consoleEvent));
+		}
+	}
+}
