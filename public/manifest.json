@@ -3,6 +3,9 @@
 	"version": "1.0",
 	"name": "browser Repl typescript",
 	"devtools_page": "devTools.html",
+	"permissions": [
+		"storage"
+	],
 	"content_scripts": [
 		{
 			"matches": ["*://*/*"],

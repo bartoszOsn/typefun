@@ -1,11 +1,15 @@
 <script lang="ts" setup="">
 
 import Editor from '../components/ScriptEditor.vue';
-import { useScriptsStore } from '../scriptsStore';
+import { useScriptsStore } from '../store/scriptsStore';
 
 const scriptsStore = useScriptsStore();
 
 const code = 'console.log(\'Hello World!\')';
+
+const addScript = () => {
+	scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
+};
 </script>
 
 <template>
@@ -20,7 +24,7 @@ const code = 'console.log(\'Hello World!\')';
 
 			<template v-slot:append>
 				<v-divider />
-				<v-btn prepend-icon="mdi-plus" class="ma-2">Add script</v-btn>
+				<v-btn prepend-icon="mdi-plus" class="ma-2" @click="addScript">Add script</v-btn>
 				<v-divider />
 				<div class="pa-2">
 					<v-form validate-on="submit" @submit.prevent="submit">

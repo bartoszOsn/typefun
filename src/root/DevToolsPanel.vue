@@ -6,7 +6,7 @@ import { HTMLFileNames } from '../HTMLFileNames';
 import Editor from '../components/ScriptEditor.vue';
 import SnackbarContainer from '../components/snackbars/SnackbarContainer.vue';
 import { useConsole } from '../hooks/useConsole';
-import { useScriptsStore } from '../scriptsStore';
+import { useScriptsStore } from '../store/scriptsStore';
 
 const { displayEvent } = useConsole();
 const scriptsStore = useScriptsStore();
