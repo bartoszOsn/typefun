@@ -6,10 +6,12 @@ import { HTMLFileNames } from '../HTMLFileNames';
 import Editor from '../components/ScriptEditor.vue';
 import SnackbarContainer from '../components/snackbars/SnackbarContainer.vue';
 import { useConsole } from '../hooks/useConsole';
-import { useScriptsStore } from '../store/scriptsStore';
+import { useDevToolsPanelStore } from '../store/devToolsPanelStore';
+import { useListenToUrl } from '../hooks/useListenToUrl';
 
 const { displayEvent } = useConsole();
-const scriptsStore = useScriptsStore();
+useListenToUrl();
+const devToolsPanelStore = useDevToolsPanelStore();
 
 const code = 'console.log("Hello World!")';
 
@@ -51,7 +53,7 @@ const openManageScript: () => void = () => {
 							<v-btn icon="mdi-chevron-down" v-bind="props"></v-btn>
 						</template>
 						<v-list>
-							<v-list-item v-for="scriptName in scriptsStore.scriptNames" :key="scriptName.id" :value="scriptName.id">
+							<v-list-item v-for="scriptName in devToolsPanelStore.applicableScripts" :key="scriptName.id" :value="scriptName.id">
 								<v-list-item-title>{{scriptName.name}}</v-list-item-title>
 							</v-list-item>
 						</v-list>

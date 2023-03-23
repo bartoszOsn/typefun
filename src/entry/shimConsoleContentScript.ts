@@ -18,7 +18,6 @@ interface ConsoleEventEvent extends Event {
 
 document.addEventListener(eventName, (event) => {
 	const consoleEvent = (event as ConsoleEventEvent).detail;
-	console.log('dispatchConsoleEvent', consoleEvent);
 	browser.runtime.sendMessage({
 		name: 'console-event',
 		event: consoleEvent

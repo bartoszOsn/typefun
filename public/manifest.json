@@ -4,7 +4,8 @@
 	"name": "browser Repl typescript",
 	"devtools_page": "devTools.html",
 	"permissions": [
-		"storage"
+		"storage",
+		"tabs"
 	],
 	"content_scripts": [
 		{

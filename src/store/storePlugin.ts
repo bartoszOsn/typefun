@@ -1,26 +1,34 @@
-import { PiniaPluginContext } from 'pinia';
+import { PiniaPluginContext, StateTree } from 'pinia';
 import browser from 'webextension-polyfill';
 
 const storeActionMessageType = 'store-action';
+
+declare module 'pinia' {
+	export interface DefineStoreOptions<Id extends string, S extends StateTree, G, A> {
+		sync?: boolean;
+	}
+}
 
 export const storePlugin = (context: PiniaPluginContext) => {
 	let invokingExternalAction = false;
 
 	loadStoreFromStorage();
 
-	listenToExternalPagesActions((name, args) => {
-		invokeActionFromExternalPages(name, args);
-	});
+	if (context.options.sync) {
+		listenToExternalPagesActions((name, args) => {
+			invokeActionFromExternalPages(name, args);
+		});
 
-	context.store.$onAction((actionContext) => {
-		if (!invokingExternalAction) {
-			actionContext.after(() => {
+		context.store.$onAction((actionContext) => {
+			if (!invokingExternalAction) {
+				actionContext.after(() => {
 
-				submitActionToExternalPages(actionContext.name, actionContext.args);
-				saveStoreToStorage();
-			});
-		}
-	});
+					submitActionToExternalPages(actionContext.name, actionContext.args);
+					saveStoreToStorage();
+				});
+			}
+		});
+	}
 
 	function invokeActionFromExternalPages(name: string, args: Array<unknown>) {
 		invokingExternalAction = true;
@@ -47,7 +55,6 @@ export const storePlugin = (context: PiniaPluginContext) => {
 
 	function saveStoreToStorage() {
 		const state = normalizeState(context.store.$state);
-		console.log('saving store to storage', state);
 		browser.storage.local.set({
 			[context.store.$id]: state
 		});
@@ -55,7 +62,6 @@ export const storePlugin = (context: PiniaPluginContext) => {
 
 	function loadStoreFromStorage() {
 		browser.storage.local.get(context.store.$id).then((store) => {
-			console.log('store from storage', store[context.store.$id]);
 			context.store.$patch(store[context.store.$id]);
 		});
 	}

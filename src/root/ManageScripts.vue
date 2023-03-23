@@ -14,10 +14,11 @@ const addScript = () => {
 
 <template>
 	<v-app>
-		<v-navigation-drawer>
+		<v-navigation-drawer :permanent="true">
 			<v-list >
 				<v-list-subheader>SCRIPTS</v-list-subheader>
-				<v-list-item v-for="scriptName in scriptsStore.scriptNames"
+				<v-list-item v-for="scriptName in scriptsStore.scripts"
+							 :key="scriptName.id"
 							 :value="scriptName.id"
 							 :title="scriptName.name" />
 			</v-list>

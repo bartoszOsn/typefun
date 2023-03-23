@@ -1,27 +1,26 @@
 import { defineStore } from 'pinia';
 
-export interface ScriptName {
+export interface Script {
 	name: string;
 	id: number;
+	urlPattern: string;
 }
 
 export const scriptsStoreId = 'scripts';
 
 export const useScriptsStore = defineStore(scriptsStoreId, {
 	state: () => ({
-		scripts: ['Hello world!', 'Remove 3rd column', 'webcrawler'] as string[],
+		scripts: [
+			{ id: 0, name: 'Hello World!', urlPattern: 'google.com/.*' },
+			{ id: 1, name: 'Remove 3rd col', urlPattern: 'https://www.reddit.com/.*' },
+			{ id: 2, name: 'web crawler', urlPattern: 'https://www.wiki.org/.*' },
+		] as Script[],
 	}),
-
-	getters: {
-		scriptNames(state): Array<ScriptName> {
-			return state.scripts?.map((script, index) => ({name: script, id: index})) ?? [];
-		}
-	},
 
 	actions: {
 		addScript(script: string, urlPattern: string) {
-			this.scripts.push(script);
+			// this.scripts.push(script);
 		}
-	}
-
+	},
+	sync: true
 });
