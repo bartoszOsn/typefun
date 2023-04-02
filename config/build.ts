@@ -37,7 +37,7 @@ async function main() {
 				emptyOutDir: false,
 			},
 			configFile: Path.resolve(paths.current, '../vite.config.ts'),
-			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.initialValue)}]` }),
+			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.fileName)}]` }),
 			clearScreen: false
 		});
 
@@ -54,7 +54,7 @@ interface Manifest {
 }
 
 interface Entry {
-	initialValue: string
+	initialValue?: string
 	input: InputOption;
 	output?: OutputOptions,
 	fileName: string;
@@ -89,7 +89,7 @@ export function getObjectValuesDeep(obj: any): Array<unknown> {
 	}, []);
 }
 
-export function entryPointToEntry(entryPointAbsolute: string, originalPath: string): Entry {
+export function entryPointToEntry(entryPointAbsolute: string, originalPath?: string): Entry {
 	const isHTML = entryPointAbsolute.endsWith('.html');
 
 	const fileName = Path.basename(entryPointAbsolute, '.ts') + '.js';
