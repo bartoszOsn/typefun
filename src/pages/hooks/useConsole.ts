@@ -1,7 +1,7 @@
 import { onMounted } from 'vue';
-import { useSnackbarManager } from '../components/snackbars/snackbar-hooks';
+import { useSnackbarManager } from '@/core/snackbar-manager/snackbar-hooks';
 import { ConsoleEvent, subscribeRuntimeConsole } from '../utils/shimConsole';
-import { SnackbarMessage, SnackbarMessageType } from '../components/snackbars/SnackbarManager';
+import { SnackbarMessage, SnackbarMessageType } from '@/core/snackbar-manager/SnackbarManager';
 
 export interface ConsoleHook {
 	displayEvent(consoleEvent: ConsoleEvent): void;

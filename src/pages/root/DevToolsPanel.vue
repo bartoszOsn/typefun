@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
 import Editor from '../components/ScriptEditor.vue';
-import SnackbarContainer from '../components/snackbars/SnackbarContainer.vue';
+import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useConsole } from '../hooks/useConsole';
 import { useDevToolsPanelStore } from '../store/devToolsPanelStore';
 import { useListenToUrl } from '../hooks/useListenToUrl';

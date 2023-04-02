@@ -3,11 +3,11 @@ import { createApp } from 'vue'
 import '../style.css'
 import DevToolsPanel from '../root/DevToolsPanel.vue'
 import { vuetify } from '../plugins/vuetify';
-import { snackbarManager } from '../plugins/snackbarManager';
+import { snackbarManagerPlugin } from '@/core/snackbar-manager/snackbarManagerPlugin';
 import { pinia } from '../plugins/pinia';
 
 createApp(DevToolsPanel)
 	.use(vuetify)
-	.use(snackbarManager)
+	.use(snackbarManagerPlugin)
 	.use(pinia)
 	.mount('#app')
