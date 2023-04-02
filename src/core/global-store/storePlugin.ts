@@ -4,6 +4,7 @@ import browser from 'webextension-polyfill';
 const storeActionMessageType = 'store-action';
 
 declare module 'pinia' {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	export interface DefineStoreOptions<Id extends string, S extends StateTree, G, A> {
 		sync?: boolean;
 	}
@@ -72,6 +73,7 @@ function normalizeState(state: unknown): unknown {
 		if (Object.keys(state).every(key => !isNaN(+key))) {
 			return Object.entries(state)
 				.sort(([key1], [key2]) => +key1 - +key2)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				.map(([_key, value]) => normalizeState(value));
 		}
 

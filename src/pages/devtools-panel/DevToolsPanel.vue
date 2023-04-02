@@ -2,17 +2,18 @@
 import browser from 'webextension-polyfill';
 import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
+import manageScriptsUrl from '../manage-scripts/manageScripts.html?href';
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useConsole } from '@/feature//devtools-console/useConsole';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';
 import { useListenToUrl } from '@/feature/devtools-panel-store/useListenToUrl';
-import manageScriptsUrl from '../manage-scripts/manageScripts.html?href';
 
 const { displayEvent } = useConsole();
 useListenToUrl();
 const devToolsPanelStore = useDevToolsPanelStore();
 
+// eslint-disable-next-line prefer-const
 let code = 'console.log("Hello World!")';
 
 const log: () => void = () => {

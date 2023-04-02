@@ -18,6 +18,7 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 	}),
 
 	actions: {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		addScript(_script: string, _urlPattern: string) {
 			// this.scripts.push(script);
 		}
