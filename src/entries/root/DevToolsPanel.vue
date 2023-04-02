@@ -13,7 +13,7 @@ const { displayEvent } = useConsole();
 useListenToUrl();
 const devToolsPanelStore = useDevToolsPanelStore();
 
-const code = 'console.log("Hello World!")';
+let code = 'console.log("Hello World!")';
 
 const log: () => void = () => {
 	const transpiled = ts.transpile(

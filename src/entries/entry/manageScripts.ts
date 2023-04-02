@@ -1,4 +1,4 @@
-import '../../node_modules/typescript/lib/typescriptServices.js'
+import '../../../node_modules/typescript/lib/typescriptServices.js'
 import { createApp } from 'vue'
 import '../style.css'
 import { vuetify } from '../plugins/vuetify';
