@@ -1,4 +1,4 @@
-import { build, createLogger } from 'vite';
+import { build, createLogger, Plugin } from 'vite';
 import * as Path from 'path';
 import * as url from 'url';
 import * as fs from 'fs/promises';
@@ -20,7 +20,6 @@ main().then();
 async function main() {
 	await fs.rm(paths.dist, { recursive: true, force: true });
 
-
 	const entries = await parseManifest();
 
 	console.log('detected entry points:', entries.entries.map(entry => entry.fileName));
@@ -38,7 +37,35 @@ async function main() {
 			},
 			configFile: Path.resolve(paths.current, '../vite.config.ts'),
 			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.fileName)}]` }),
-			clearScreen: false
+			clearScreen: false,
+			plugins: [{
+				name: 'href-loader',
+				resolveId: {
+					order: 'pre',
+					async handler(id: string, importer: string | undefined) {
+						if (id.endsWith('?href')) {
+							const path = id.slice(0, -5);
+							const referenceId = await this.resolve(path, importer);
+
+							if (!referenceId) {
+								throw new Error(`Could not resolve ${path} from ${importer}`);
+							}
+							return `\0${referenceId.id}?href`;
+						}
+						return null;
+					}
+				},
+				load(id: string) {
+					if (id.startsWith('\0') && id.endsWith('?href')) {
+						const path = id.slice(1, -5);
+						const entry = entryPointToEntry(path);
+						console.log(entry);
+						return `export default ${JSON.stringify(entry.fileName)}`;
+					}
+					return null;
+				}
+
+			} as Plugin]
 		});
 
 		promises.push(promise);
