@@ -8,6 +8,7 @@ import SnackbarContainer from '../components/snackbars/SnackbarContainer.vue';
 import { useConsole } from '../hooks/useConsole';
 import { useDevToolsPanelStore } from '../store/devToolsPanelStore';
 import { useListenToUrl } from '../hooks/useListenToUrl';
+import manageScriptsUrl from '../html/manageScripts.html?href';
 
 const { displayEvent } = useConsole();
 useListenToUrl();
@@ -36,7 +37,7 @@ const log: () => void = () => {
 
 const openManageScript: () => void = () => {
 	browser.tabs.create({
-		url: HTMLFileNames.manageScripts
+		url: manageScriptsUrl
 	});
 };
 </script>
