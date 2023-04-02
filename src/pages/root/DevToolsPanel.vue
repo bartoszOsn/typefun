@@ -7,7 +7,7 @@ import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useConsole } from '@/feature//devtools-console/useConsole';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';
 import { useListenToUrl } from '@/feature/devtools-panel-store/useListenToUrl';
-import manageScriptsUrl from '../html/manageScripts.html?href';
+import manageScriptsUrl from '../manage-scripts/manageScripts.html?href';
 
 const { displayEvent } = useConsole();
 useListenToUrl();
