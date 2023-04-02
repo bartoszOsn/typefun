@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import '../style.css'
 import { vuetify } from '../plugins/vuetify';
 import ManageScripts from '../root/ManageScripts.vue';
-import { pinia } from '../plugins/pinia';
+import { pinia } from '@/core/global-store/pinia';
 
 createApp(ManageScripts)
 	.use(vuetify)

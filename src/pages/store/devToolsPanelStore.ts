@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import browser from 'webextension-polyfill';
-import { useScriptsStore } from './scriptsStore';
+import { useScriptsStore } from '@/core/global-store/scriptsStore';
 
 export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 	state: () => ({

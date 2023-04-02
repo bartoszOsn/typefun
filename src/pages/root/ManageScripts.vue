@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 
 import Editor from '@/core//script-editor/ScriptEditor.vue';
-import { useScriptsStore } from '../store/scriptsStore';
+import { useScriptsStore } from '@/core/global-store/scriptsStore';
 
 const scriptsStore = useScriptsStore();
 

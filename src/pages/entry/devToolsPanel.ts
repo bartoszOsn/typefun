@@ -4,7 +4,7 @@ import '../style.css'
 import DevToolsPanel from '../root/DevToolsPanel.vue'
 import { vuetify } from '../plugins/vuetify';
 import { snackbarManagerPlugin } from '@/core/snackbar-manager/snackbarManagerPlugin';
-import { pinia } from '../plugins/pinia';
+import { pinia } from '@/core/global-store/pinia';
 
 createApp(DevToolsPanel)
 	.use(vuetify)
