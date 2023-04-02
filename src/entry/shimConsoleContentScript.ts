@@ -2,8 +2,8 @@
 // it cannot have any dependencies on other files, because they will not be available.
 // All it can import is types.
 // TODO: Now imports are possible, it is compiled to iife now. Refactor to use imports.
-import type { ConsoleEvent } from '../utils/shimConsole';
 import browser from 'webextension-polyfill';
+import type { ConsoleEvent } from '../utils/shimConsole';
 
 const eventName = 'console-event';
 

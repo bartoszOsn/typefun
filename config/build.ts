@@ -1,8 +1,8 @@
-import { build, createLogger, Plugin } from 'vite';
 import * as Path from 'path';
 import * as url from 'url';
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
+import { build, createLogger, Plugin } from 'vite';
 import { InputOption, OutputOptions } from 'rollup';
 
 const paths = (() => {
@@ -17,7 +17,7 @@ const paths = (() => {
 
 main().then();
 
-async function main() {
+async function main(): Promise<void> {
 	await fs.rm(paths.dist, { recursive: true, force: true });
 
 	const entries = await parseManifest();
@@ -72,14 +72,14 @@ async function main() {
 }
 
 interface Manifest {
-	entries: Array<Entry>,
-	manifest: string
+	entries: Array<Entry>;
+	manifest: string;
 }
 
 interface Entry {
-	initialValue?: string
+	initialValue?: string;
 	input: InputOption;
-	output?: OutputOptions,
+	output?: OutputOptions;
 	fileName: string;
 }
 async function parseManifest(): Promise<Manifest> {
@@ -92,7 +92,7 @@ async function parseManifest(): Promise<Manifest> {
 	const entries: Array<Entry> = entryPoints.map(entryPoint => entryPointToEntry(Path.resolve(Path.dirname(paths.manifest), entryPoint), entryPoint));
 
 	return {
-		entries: entries,
+		entries,
 		manifest: JSON.stringify(manifestObject, (key, value) => {
 			const entry = entries.find(e => e.initialValue === value);
 			if (!entry) {
@@ -103,7 +103,7 @@ async function parseManifest(): Promise<Manifest> {
 	};
 }
 
-export function getObjectValuesDeep(obj: any): Array<unknown> {
+export function getObjectValuesDeep(obj: object): Array<unknown> {
 	return Object.values(obj).reduce<Array<unknown>>((acc: Array<unknown>, value: unknown) => {
 		if (typeof value === 'object' && value !== null) {
 			return acc.concat(getObjectValuesDeep(value));
@@ -115,7 +115,7 @@ export function getObjectValuesDeep(obj: any): Array<unknown> {
 export function entryPointToEntry(entryPointAbsolute: string, originalPath?: string): Entry {
 	const isHTML = entryPointAbsolute.endsWith('.html');
 
-	const fileName = Path.basename(entryPointAbsolute, '.ts') + '.js';
+	const fileName = `${Path.basename(entryPointAbsolute, '.ts')  }.js`;
 	return {
 		initialValue: originalPath,
 		input: entryPointAbsolute,
@@ -152,7 +152,9 @@ export class EntryManager {
 			this.resolve(entry);
 		}
 
-		return new Promise<void>((resolve) => { this.resolvePromise = resolve; });
+		return new Promise<void>((resolve) => {
+			this.resolvePromise = resolve;
+		});
 	}
 
 	private resolve(entry: Entry): void {

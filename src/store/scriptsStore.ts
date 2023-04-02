@@ -14,11 +14,11 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 			{ id: 0, name: 'Hello World!', urlPattern: 'google.com/.*' },
 			{ id: 1, name: 'Remove 3rd col', urlPattern: 'https://www.reddit.com/.*' },
 			{ id: 2, name: 'web crawler', urlPattern: 'https://www.wiki.org/.*' },
-		] as Script[],
+		] as Array<Script>,
 	}),
 
 	actions: {
-		addScript(script: string, urlPattern: string) {
+		addScript(_script: string, _urlPattern: string) {
 			// this.scripts.push(script);
 		}
 	},

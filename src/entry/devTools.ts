@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill';
-import { HTMLFileNames } from '../HTMLFileNames';
 import devToolsPanelUrl from '../html/devToolsPanel.html?href';
 
 export {};

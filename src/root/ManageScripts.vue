@@ -7,7 +7,7 @@ const scriptsStore = useScriptsStore();
 
 const code = 'console.log(\'Hello World!\')';
 
-const addScript = () => {
+const addScript = (): void => {
 	scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
 };
 </script>
