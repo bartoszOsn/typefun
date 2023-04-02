@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { useDevToolsPanelStore } from '../store/devToolsPanelStore';
+import { useDevToolsPanelStore } from './devToolsPanelStore';
 
 export function useListenToUrl(): void {
 	const store = useDevToolsPanelStore();
