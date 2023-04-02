@@ -24,10 +24,10 @@ async function main() {
 
 	console.log('detected entry points:', entries.entries.map(entry => entry.fileName));
 
-	const promises = [];
+	const entryManager = new EntryManager(new Set<Entry>(entries.entries));
 
-	for (let entry of entries.entries) {
-		const promise = build({
+	await entryManager.handle((entry) => {
+		return build({
 			build: {
 				rollupOptions: {
 					input: entry.input,
@@ -59,19 +59,15 @@ async function main() {
 					if (id.startsWith('\0') && id.endsWith('?href')) {
 						const path = id.slice(1, -5);
 						const entry = entryPointToEntry(path);
-						console.log(entry);
+						entryManager.add(entry);
 						return `export default ${JSON.stringify(entry.fileName)}`;
 					}
 					return null;
 				}
 
 			} as Plugin]
-		});
-
-		promises.push(promise);
-	}
-
-	await Promise.all(promises);
+		}).then(() => void 0);
+	});
 	await fs.writeFile(Path.resolve(paths.dist, './manifest.json'), entries.manifest);
 }
 
@@ -128,5 +124,46 @@ export function entryPointToEntry(entryPointAbsolute: string, originalPath?: str
 			format: 'iife'
 		},
 		fileName: isHTML ? Path.relative(paths.base, entryPointAbsolute) : fileName
+	}
+}
+
+export class EntryManager {
+	private handler: ((entry: Entry) => Promise<void>) | null = null;
+	private resolvePromise: (() => void) | null = null;
+
+	constructor(private readonly entries: Set<Entry>) {
+	}
+
+	add(entry: Entry): void {
+		if (this.entries.has(entry)) {
+			return;
+		}
+
+		this.resolve(entry);
+	}
+
+	handle(handler: (entry: Entry) => Promise<void>): Promise<void> {
+		if (this.handler) {
+			throw new Error('handle() method can be only invoked once.');
+		}
+		this.handler = handler;
+
+		for (const entry of Array.from(this.entries)) {
+			this.resolve(entry);
+		}
+
+		return new Promise<void>((resolve) => { this.resolvePromise = resolve; });
+	}
+
+	private resolve(entry: Entry): void {
+
+
+		this.handler?.(entry)
+			.then(() => {
+				this.entries.delete(entry);
+				if (this.entries.size === 0) {
+					this.resolvePromise?.();
+				}
+			});
 	}
 }
