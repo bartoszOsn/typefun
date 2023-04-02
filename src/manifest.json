@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"version": "1.0",
 	"name": "browser Repl typescript",
-	"devtools_page": "pages/html/devTools.html",
+	"devtools_page": "pages/devtools/devTools.html",
 	"permissions": [
 		"storage",
 		"tabs"
