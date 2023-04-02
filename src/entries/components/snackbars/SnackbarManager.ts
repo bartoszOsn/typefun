@@ -1,4 +1,4 @@
-import { UniqueId } from '../../utils/UniqueId';
+import { UniqueId } from '../../../utils/UniqueId';
 
 export enum SnackbarMessageType {
 	default = 'default',
