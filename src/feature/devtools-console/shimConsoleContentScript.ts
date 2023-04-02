@@ -3,12 +3,12 @@
 // All it can import is types.
 // TODO: Now imports are possible, it is compiled to iife now. Refactor to use imports.
 import browser from 'webextension-polyfill';
-import type { ConsoleEvent } from '../utils/shimConsole';
+import type { ConsoleEvent } from './shimConsole';
 
 const eventName = 'console-event';
 
 const pageScript = document.createElement('script');
-pageScript.src = browser.runtime.getURL('shimConsolePageScript.js');
+pageScript.src = browser.runtime.getURL('shimConsolePageScript.js'); // TODO: use `?href` loader
 document.head.appendChild(pageScript);
 
 interface ConsoleEventEvent extends Event {

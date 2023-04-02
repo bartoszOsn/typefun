@@ -10,14 +10,14 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*"],
-			"js": ["pages/entry/shimConsoleContentScript.ts"],
+			"js": ["feature/devtools-console/shimConsoleContentScript.ts"],
 			"run_at": "document_end"
 		}
 	],
 	"web_accessible_resources": [
 		{
 			"matches": ["*://*/*"],
-			"resources": ["pages/entry/shimConsolePageScript.ts"]
+			"resources": ["feature/devtools-console/shimConsolePageScript.ts"]
 		}
 	]
 }
