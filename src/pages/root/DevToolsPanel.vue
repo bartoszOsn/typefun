@@ -2,7 +2,7 @@
 import browser from 'webextension-polyfill';
 import { ts } from 'ts-services';
 import 'typescript/lib/typescriptServices';
-import Editor from '../components/ScriptEditor.vue';
+import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useConsole } from '../hooks/useConsole';
 import { useDevToolsPanelStore } from '../store/devToolsPanelStore';
