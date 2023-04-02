@@ -1,22 +1,27 @@
 import { build, createLogger } from 'vite';
 import * as Path from 'path';
-import vue from '@vitejs/plugin-vue';
 import * as url from 'url';
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import { InputOption, OutputOptions } from 'rollup';
-import { en } from 'vuetify/locale';
-// import { tsServicesPlugin } from './tsServicesPlugin';
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const paths = (() => {
+	const current = url.fileURLToPath(new URL('.', import.meta.url));
+
+	const base = Path.resolve(current, '..');
+	const dist = Path.resolve(base, './dist');
+	const manifest = Path.resolve(base, './src/manifest.json');
+
+	return { current, base, dist, manifest };
+})();
 
 main().then();
 
 async function main() {
-	await fs.rm(Path.resolve(__dirname, '../dist'), { recursive: true, force: true });
+	await fs.rm(paths.dist, { recursive: true, force: true });
 
-	const entries = await parseManifest(Path.resolve(__dirname, '../src/manifest.json'));
+
+	const entries = await parseManifest();
 
 	console.log('detected entry points:', entries.entries.map(entry => entry.fileName));
 
@@ -31,7 +36,7 @@ async function main() {
 				},
 				emptyOutDir: false,
 			},
-			configFile: Path.resolve(__dirname, '../vite.config.ts'),
+			configFile: Path.resolve(paths.current, '../vite.config.ts'),
 			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.initialValue)}]` }),
 			clearScreen: false
 		});
@@ -40,7 +45,7 @@ async function main() {
 	}
 
 	await Promise.all(promises);
-	await fs.writeFile(Path.resolve(__dirname, '../dist/manifest.json'), entries.manifest);
+	await fs.writeFile(Path.resolve(paths.dist, './manifest.json'), entries.manifest);
 }
 
 interface Manifest {
@@ -54,28 +59,14 @@ interface Entry {
 	output?: OutputOptions,
 	fileName: string;
 }
-async function parseManifest(manifestPath: string): Promise<Manifest> {
-	const manifestObject: object = JSON.parse(await fs.readFile(manifestPath, 'utf-8'));
+async function parseManifest(): Promise<Manifest> {
+	const manifestObject: object = JSON.parse(await fs.readFile(paths.manifest, 'utf-8'));
 
 	const entryPoints = getObjectValuesDeep(manifestObject)
 		.filter((value): value is string => typeof value === 'string')
-		.filter(value => fsSync.existsSync(Path.resolve(Path.dirname(manifestPath), value)));
+		.filter(value => fsSync.existsSync(Path.resolve(Path.dirname(paths.manifest), value)));
 
-	const entries: Array<Entry> = entryPoints.map(entryPoint => {
-		const isHTML = entryPoint.endsWith('.html');
-
-		const fileName = Path.basename(entryPoint, '.ts') + '.js';
-		const input = Path.resolve(Path.dirname(manifestPath), entryPoint);
-		return {
-			initialValue: entryPoint,
-			input: input,
-			output: isHTML ? undefined : {
-				entryFileNames: fileName,
-				format: 'iife'
-			},
-			fileName: isHTML ? Path.relative(Path.resolve(Path.basename(manifestPath), '..'), input) : fileName
-		}
-	});
+	const entries: Array<Entry> = entryPoints.map(entryPoint => entryPointToEntry(Path.resolve(Path.dirname(paths.manifest), entryPoint), entryPoint));
 
 	return {
 		entries: entries,
@@ -96,4 +87,19 @@ export function getObjectValuesDeep(obj: any): Array<unknown> {
 		}
 		return acc.concat(value);
 	}, []);
+}
+
+export function entryPointToEntry(entryPointAbsolute: string, originalPath: string): Entry {
+	const isHTML = entryPointAbsolute.endsWith('.html');
+
+	const fileName = Path.basename(entryPointAbsolute, '.ts') + '.js';
+	return {
+		initialValue: originalPath,
+		input: entryPointAbsolute,
+		output: isHTML ? undefined : {
+			entryFileNames: fileName,
+			format: 'iife'
+		},
+		fileName: isHTML ? Path.relative(paths.base, entryPointAbsolute) : fileName
+	}
 }
