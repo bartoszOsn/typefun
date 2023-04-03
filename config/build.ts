@@ -35,7 +35,7 @@ async function main(): Promise<void> {
 				},
 				emptyOutDir: false,
 			},
-			configFile: Path.resolve(paths.current, '../vite.config.ts'),
+			configFile: Path.resolve(paths.current, './vite.config.ts'),
 			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.fileName)}]` }),
 			clearScreen: false,
 			plugins: [{
