@@ -11,8 +11,9 @@ const paths = (() => {
 	const base = Path.resolve(current, '..');
 	const dist = Path.resolve(base, './dist');
 	const manifest = Path.resolve(base, './src/manifest.json');
+	const nodeModules = Path.resolve(base, './node_modules');
 
-	return { current, base, dist, manifest };
+	return { current, base, dist, manifest, nodeModules };
 })();
 
 main().then();
@@ -28,6 +29,7 @@ async function main(): Promise<void> {
 
 	await entryManager.handle((entry) => {
 		return build({
+			mode: 'development',
 			build: {
 				rollupOptions: {
 					input: entry.input,
@@ -35,6 +37,10 @@ async function main(): Promise<void> {
 				},
 				emptyOutDir: false,
 			},
+			optimizeDeps: {
+				disabled: false
+			},
+			cacheDir: Path.resolve(paths.base, './.vite', entry.fileName.replace(/[./\\]/g, '_')),
 			configFile: Path.resolve(paths.current, './vite.config.ts'),
 			customLogger: createLogger(undefined, { prefix: `[${Path.basename(entry.fileName)}]` }),
 			clearScreen: false,
