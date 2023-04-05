@@ -36,6 +36,7 @@ async function main(): Promise<void> {
 					output: entry.output
 				},
 				emptyOutDir: false,
+				sourcemap: true
 			},
 			optimizeDeps: {
 				disabled: false

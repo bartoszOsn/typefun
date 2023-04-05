@@ -8,19 +8,27 @@ export interface Script {
 
 export const scriptsStoreId = 'scripts';
 
+const initialState = {
+	scripts: [
+		{ id: 0, name: 'Hello World!', urlPattern: 'google.com/.*' },
+		{ id: 1, name: 'Remove 3rd col', urlPattern: 'https://www.reddit.com/.*' },
+		{ id: 2, name: 'web crawler', urlPattern: 'https://www.wiki.org/.*' },
+	] as Array<Script>,
+}
+
 export const useScriptsStore = defineStore(scriptsStoreId, {
-	state: () => ({
-		scripts: [
-			{ id: 0, name: 'Hello World!', urlPattern: 'google.com/.*' },
-			{ id: 1, name: 'Remove 3rd col', urlPattern: 'https://www.reddit.com/.*' },
-			{ id: 2, name: 'web crawler', urlPattern: 'https://www.wiki.org/.*' },
-		] as Array<Script>,
-	}),
+	state: () => ({ ...initialState }),
 
 	actions: {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		addScript(_script: string, _urlPattern: string) {
-			// this.scripts.push(script);
+		addScript(name: string, urlPattern: string) {
+			this.scripts.push({
+				id: this.scripts.length,
+				name: name,
+				urlPattern: urlPattern
+			});
+		},
+		resetState() {
+			this.$reset();
 		}
 	},
 	sync: true

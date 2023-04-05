@@ -10,12 +10,16 @@ const code = 'console.log(\'Hello World!\')';
 const addScript = (): void => {
 	scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
 };
+
+const resetState = (): void => {
+	scriptsStore.resetState();
+};
 </script>
 
 <template>
 	<v-app>
 		<v-navigation-drawer :permanent="true">
-			<v-list >
+			<v-list>
 				<v-list-subheader>SCRIPTS</v-list-subheader>
 				<v-list-item v-for="scriptName in scriptsStore.scripts"
 							 :key="scriptName.id"
@@ -26,6 +30,7 @@ const addScript = (): void => {
 			<template v-slot:append>
 				<v-divider />
 				<v-btn prepend-icon="mdi-plus" class="ma-2" @click="addScript">Add script</v-btn>
+				<v-btn prepend-icon="mdi-delete" class="ma-2" @click="resetState">Reset state</v-btn>
 				<v-divider />
 				<div class="pa-2">
 					<v-form validate-on="submit" @submit.prevent="submit">
