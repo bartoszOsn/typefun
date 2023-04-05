@@ -2,13 +2,22 @@
 
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
+import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
+import { ref } from 'vue';
 
 const scriptsStore = useScriptsStore();
 
 const code = 'console.log(\'Hello World!\')';
 
+const addScriptModalVisible = ref(false);
+
 const addScript = (): void => {
-	scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
+	// scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
+	addScriptModalVisible.value = true;
+};
+
+const createScript = (name: string, pattern: string): void => {
+	scriptsStore.addScript(name, pattern);
 };
 
 const resetState = (): void => {
@@ -51,6 +60,7 @@ const resetState = (): void => {
 			<editor :code="code" />
 		</v-main>
 	</v-app>
+	<NewScriptModal :visible="addScriptModalVisible" @update:visible="addScriptModalVisible = $event" @create="createScript" />
 </template>
 
 <style scoped>
