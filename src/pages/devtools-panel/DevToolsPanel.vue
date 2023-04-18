@@ -8,6 +8,7 @@ import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useConsole } from '@/feature//devtools-console/useConsole';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';
 import { useListenToUrl } from '@/feature/devtools-panel-store/useListenToUrl';
+import { compileTs } from '@/core/ts-compilator/compileTs';
 
 const { displayEvent } = useConsole();
 useListenToUrl();
@@ -17,15 +18,7 @@ const devToolsPanelStore = useDevToolsPanelStore();
 let code = 'console.log("Hello World!")';
 
 const log: () => void = () => {
-	const transpiled = ts.transpile(
-		code,
-		{
-			target: ts.ScriptTarget.ESNext,
-			module: ts.ModuleKind.ESNext
-		},
-		'test.ts',
-		[]
-	);
+	const transpiled = compileTs(code);
 
 	browser.devtools.inspectedWindow.eval(transpiled)
 		.then(([result, exception]) => {
@@ -61,6 +54,26 @@ const openManageScript: () => void = () => {
 					</v-menu>
 				</v-app-bar-title>
 				<template v-slot:append>
+					<v-tooltip text="Revert" location="top">
+						<template  v-slot:activator="{ props }">
+							<v-btn icon="mdi-arrow-u-left-top" @click="openManageScript" v-bind="props"></v-btn>
+						</template>
+					</v-tooltip>
+
+					<v-tooltip text="Difference – Not implemented yet." location="top">
+						<template  v-slot:activator="{ props }">
+							<v-btn icon="mdi-swap-horizontal-bold" disabled v-bind="props"></v-btn>
+						</template>
+					</v-tooltip>
+
+					<v-tooltip text="Save" location="top">
+						<template  v-slot:activator="{ props }">
+							<v-btn icon="mdi-content-save" @click="openManageScript" v-bind="props"></v-btn>
+						</template>
+					</v-tooltip>
+
+					<v-divider vertical class="mx-4"></v-divider>
+
 					<v-tooltip text="Manage scripts" location="top">
 						<template  v-slot:activator="{ props }">
 							<v-btn icon="mdi-exit-to-app" @click="openManageScript" v-bind="props"></v-btn>

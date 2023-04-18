@@ -4,10 +4,10 @@ import Editor from '@/core/script-editor/ScriptEditor.vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
 import { ref } from 'vue';
+import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
 
 const scriptsStore = useScriptsStore();
-
-const code = 'console.log(\'Hello World!\')';
+const manageScriptsStore = useManageScriptsStore();
 
 const addScriptModalVisible = ref(false);
 
@@ -22,6 +22,10 @@ const createScript = (name: string, pattern: string): void => {
 
 const resetState = (): void => {
 	scriptsStore.resetState();
+};
+
+const updateCode = (newCode: string): void => {
+	manageScriptsStore.setCode(newCode);
 };
 </script>
 
@@ -57,7 +61,7 @@ const resetState = (): void => {
 			</template>
 		</v-navigation-drawer>
 		<v-main class="main-container">
-			<editor :code="code" />
+			<editor v-if="manageScriptsStore.currentScriptId" :code="manageScriptsStore.currentScript.code.draft" @update:code="updateCode" />
 		</v-main>
 	</v-app>
 	<NewScriptModal :visible="addScriptModalVisible" @update:visible="addScriptModalVisible = $event" @create="createScript" />

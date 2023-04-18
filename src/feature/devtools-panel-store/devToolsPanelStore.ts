@@ -5,6 +5,7 @@ import { useScriptsStore } from '@/core/global-store/scriptsStore';
 export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 	state: () => ({
 		inspectedWindowUrl: '',
+		currentScriptId: null as number | null
 	}),
 
 	getters: {
@@ -12,6 +13,11 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 			const scriptsStore = useScriptsStore();
 
 			return scriptsStore.scripts.filter(script => new RegExp(script.urlPattern).test(state.inspectedWindowUrl));
+		},
+		currentScript(state) {
+			const scriptsStore = useScriptsStore();
+
+			return scriptsStore.scripts.find(script => script.id === state.currentScriptId);
 		}
 	},
 
@@ -22,6 +28,9 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 		},
 		setInspectedWindowUrl(url: string) {
 			this.inspectedWindowUrl = url;
+		},
+		setCurrentScriptId(scriptId: number) {
+			this.currentScriptId = scriptId;
 		}
 	}
 });
