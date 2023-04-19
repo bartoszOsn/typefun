@@ -71,6 +71,17 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 				}
 			});
 		},
+		revertCode(scriptId: number) {
+			this.$patch((state) => {
+				const script = state.scripts.find(script => script.id === scriptId);
+				console.log('revertCode0', scriptId, script);
+				if (script) {
+					console.log('revertCode1', scriptId, script);
+					script.code.draft = script.code.raw;
+					script.code.modified = false;
+				}
+			});
+		},
 		resetState() {
 			this.$reset();
 		}

@@ -35,10 +35,31 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 		setCurrentScriptId(scriptId: number) {
 			this.currentScriptId = scriptId;
 		},
-		setFirstApplicableScriptAsCurrent() {
+		setFirstApplicableScriptAsCurrent(): void {
 			const applicableScripts = this.applicableScripts;
 			if (applicableScripts.length > 0) {
-				this.currentScriptId = applicableScripts[0].id;
+				this.setCurrentScriptId(applicableScripts[0].id);
+			}
+		},
+		saveCurrentScript() {
+			const currentScriptId = this.currentScriptId;
+			if (currentScriptId !== null) {
+				const scriptsStore = useScriptsStore();
+				scriptsStore.saveCode(currentScriptId);
+			}
+		},
+		revertCurrentScript() {
+			const currentScriptId = this.currentScriptId;
+			if (currentScriptId !== null) {
+				const scriptsStore = useScriptsStore();
+				scriptsStore.revertCode(currentScriptId);
+			}
+		},
+		setCurrentScriptCode(code: string) {
+			const currentScriptId = this.currentScriptId;
+			if (currentScriptId !== null) {
+				const scriptsStore = useScriptsStore();
+				scriptsStore.setCode(currentScriptId, code);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 
 import * as monaco from 'monaco-editor';
 import 'typescript/lib/typescriptServices';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker&inline';
@@ -25,6 +25,7 @@ self.MonacoEnvironment = {
 	}
 }
 const editorRef = ref<HTMLDivElement | null>(null);
+let editor: monaco.editor.IStandaloneCodeEditor | null = null;
 
 onMounted(() => {
 	monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
@@ -44,7 +45,7 @@ onMounted(() => {
 		throw new Error('editorDomElement is null');
 	}
 
-	const editor = monaco.editor.create(editorDomElement, {
+	editor = monaco.editor.create(editorDomElement, {
 		value: props.code,
 		language: 'javascript',
 		theme: `vs-${getBrowserMode()}`,
@@ -57,7 +58,7 @@ onMounted(() => {
 	});
 
 	const disposeOnModelChange = editor.getModel()?.onDidChangeContent(() => {
-		emit('update:code', editor.getModel()?.getValue() ?? '');
+		emit('update:code', editor?.getModel()?.getValue() ?? '');
 	});
 
 
@@ -65,7 +66,14 @@ onMounted(() => {
 
 	return () => {
 		disposeOnModelChange?.dispose();
-		editor.dispose();
+		editor?.dispose();
+	}
+});
+
+watch(() => props.code, () => {
+	if (editor && props.code !== editor.getValue()) {
+		editor.setValue(props.code);
+		console.log('editor.setValue(props.code);', props.code)
 	}
 });
 </script>

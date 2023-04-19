@@ -10,6 +10,7 @@ import { compileTs } from '@/core/ts-compilator/compileTs';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
+import { watchEffect } from 'vue';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
@@ -17,11 +18,19 @@ devToolsPanelStore.setFirstApplicableScriptAsCurrent();
 const { displayEvent } = useConsole();
 useListenToUrl();
 
-// eslint-disable-next-line prefer-const
-let code = 'console.log("Hello World!")';
+const stopWatchingForFirstApplicableScript = watchEffect(() => {
+	if (devToolsPanelStore.applicableScripts.length > 0) {
+		devToolsPanelStore.setFirstApplicableScriptAsCurrent();
+		stopWatchingForFirstApplicableScript();
+	}
+}, { });
 
-const log: () => void = () => {
-	const transpiled = compileTs(code);
+const run: () => void = () => {
+	if (!devToolsPanelStore.currentScript) {
+		throw new Error('No current script');
+	}
+
+	const transpiled = compileTs(devToolsPanelStore.currentScript?.code.draft);
 
 	browser.devtools.inspectedWindow.eval(transpiled)
 		.then(([result, exception]) => {
@@ -35,6 +44,16 @@ const createScript = (name: string, pattern: string): void => {
 	// TODO: warn if pattern doesn't match current url
 	scriptsStore.addScript(name, pattern);
 };
+
+const revertScript = (): void => {
+	devToolsPanelStore.revertCurrentScript();
+}
+
+const saveScript = (): void => {
+	devToolsPanelStore.saveCurrentScript();
+}
+
+const showDiff = (): void => {};
 </script>
 
 <template>
@@ -46,7 +65,10 @@ const createScript = (name: string, pattern: string): void => {
 			<template v-else>
 				<v-app-bar>
 					<v-app-bar-title>
-						<template v-slot:text>Hello world!</template>
+						<template v-slot:text>
+							<span>{{ devToolsPanelStore.currentScript.name }}</span>
+							<span v-if="devToolsPanelStore.currentScript.code.modified" class="font-weight-black text-amber"> *</span>
+						</template>
 
 						<v-menu>
 							<template v-slot:activator="{ props }">
@@ -62,19 +84,31 @@ const createScript = (name: string, pattern: string): void => {
 					<template v-slot:append>
 						<v-tooltip text="Revert" location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-arrow-u-left-top" @click="openManageScript" v-bind="props"></v-btn>
+								<v-btn icon="mdi-arrow-u-left-top"
+									   @click="revertScript"
+									   :disabled="!devToolsPanelStore.currentScript.code.modified"
+									   v-bind="props">
+								</v-btn>
 							</template>
 						</v-tooltip>
 
 						<v-tooltip text="Difference – Not implemented yet." location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-swap-horizontal-bold" disabled v-bind="props"></v-btn>
+								<v-btn icon="mdi-swap-horizontal-bold"
+									   @click="showDiff"
+									   :disabled="!devToolsPanelStore.currentScript.code.modified"
+									   v-bind="props">
+								</v-btn>
 							</template>
 						</v-tooltip>
 
 						<v-tooltip text="Save" location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-content-save" @click="openManageScript" v-bind="props"></v-btn>
+								<v-btn icon="mdi-content-save"
+									   @click="saveScript"
+									   :disabled="!devToolsPanelStore.currentScript.code.modified"
+									   v-bind="props">
+								</v-btn>
 							</template>
 						</v-tooltip>
 
@@ -88,13 +122,14 @@ const createScript = (name: string, pattern: string): void => {
 
 						<v-tooltip text="Run script" location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-play" @click="log" v-bind="props"></v-btn>
+								<v-btn icon="mdi-play" @click="run" v-bind="props"></v-btn>
 							</template>
 						</v-tooltip>
 					</template>
 				</v-app-bar>
 				<v-main class="main-container">
-					<editor v-model:code="code" />
+					<editor :code="devToolsPanelStore.currentScript.code.draft"
+							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)" />
 				</v-main>
 			</template>
 		</v-app>
