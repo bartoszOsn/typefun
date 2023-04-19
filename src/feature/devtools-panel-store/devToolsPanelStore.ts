@@ -18,6 +18,9 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 			const scriptsStore = useScriptsStore();
 
 			return scriptsStore.scripts.find(script => script.id === state.currentScriptId);
+		},
+		showNoApplicableScriptSplashScreen(): boolean {
+			return this.applicableScripts.length === 0;
 		}
 	},
 
@@ -31,6 +34,12 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 		},
 		setCurrentScriptId(scriptId: number) {
 			this.currentScriptId = scriptId;
+		},
+		setFirstApplicableScriptAsCurrent() {
+			const applicableScripts = this.applicableScripts;
+			if (applicableScripts.length > 0) {
+				this.currentScriptId = applicableScripts[0].id;
+			}
 		}
 	}
 });

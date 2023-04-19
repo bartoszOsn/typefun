@@ -45,7 +45,12 @@ function getResolveIdHandler(domains: Array<DomainOptions>): Plugin['resolveId']
 				return null;
 			}
 
-			if (id.replace(/\?.*/, '') === importer.replace(/\?.*/, '')) {
+			const idOnlyPath = id.replace(/\?.*/, '');
+			if (idOnlyPath.endsWith('.html')) {
+				return null;
+			}
+
+			if (idOnlyPath === importer.replace(/\?.*/, '')) {
 				return null;
 			}
 
