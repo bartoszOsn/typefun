@@ -86,31 +86,34 @@ const showDiff = (): void => {};
 					<template v-slot:append>
 						<v-tooltip text="Revert" location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-arrow-u-left-top"
-									   @click="revertScript"
-									   :disabled="!devToolsPanelStore.currentScript.code.modified"
-									   v-bind="props">
-								</v-btn>
+								<div v-bind="props">
+									<v-btn icon="mdi-arrow-u-left-top"
+										   @click="revertScript"
+										   :disabled="!devToolsPanelStore.currentScript.code.modified">
+									</v-btn>
+								</div>
 							</template>
 						</v-tooltip>
 
 						<v-tooltip text="Difference – Not implemented yet." location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-swap-horizontal-bold"
-									   @click="showDiff"
-									   :disabled="!devToolsPanelStore.currentScript.code.modified"
-									   v-bind="props">
-								</v-btn>
+								<div v-bind="props">
+									<v-btn icon="mdi-swap-horizontal-bold"
+										   @click="showDiff"
+										   :disabled="!devToolsPanelStore.currentScript.code.modified">
+									</v-btn>
+								</div>
 							</template>
 						</v-tooltip>
 
 						<v-tooltip text="Save" location="top">
 							<template  v-slot:activator="{ props }">
-								<v-btn icon="mdi-content-save"
-									   @click="saveScript"
-									   :disabled="!devToolsPanelStore.currentScript.code.modified"
-									   v-bind="props">
-								</v-btn>
+								<div v-bind="props">
+									<v-btn icon="mdi-content-save"
+										   @click="saveScript"
+										   :disabled="!devToolsPanelStore.currentScript.code.modified">
+									</v-btn>
+								</div>
 							</template>
 						</v-tooltip>
 
