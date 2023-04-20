@@ -4,6 +4,12 @@ import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import { build, createLogger, Plugin } from 'vite';
 import { InputOption, OutputOptions } from 'rollup';
+import { oppa } from 'oppa';
+
+const options = oppa({ name: 'build', description: 'Builds the extension' })
+	.add({ name: 'watch', alias: 'w', type: 'boolean', description: 'Watch for changes' })
+	.add({ name: 'sourcemap', alias: 's', type: 'boolean', description: 'Generate sourcemaps' })
+	.parse(process.argv.slice(2));
 
 const paths = (() => {
 	const current = url.fileURLToPath(new URL('.', import.meta.url));
@@ -36,7 +42,7 @@ async function main(): Promise<void> {
 					output: entry.output
 				},
 				emptyOutDir: false,
-				// sourcemap: true
+				sourcemap: options.args.sourcemap
 			},
 			optimizeDeps: {
 				disabled: false

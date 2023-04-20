@@ -74,10 +74,12 @@ const showDiff = (): void => {};
 							<template v-slot:activator="{ props }">
 								<v-btn icon="mdi-chevron-down" v-bind="props"></v-btn>
 							</template>
-							<v-list>
-								<v-list-item v-for="scriptName in devToolsPanelStore.applicableScripts" :key="scriptName.id" :value="scriptName.id">
-									<v-list-item-title>{{scriptName.name}}</v-list-item-title>
-								</v-list-item>
+							<v-list :items="devToolsPanelStore.applicableScripts"
+									item-title="name"
+									item-value="id"
+									:selected="[devToolsPanelStore.currentScriptId]"
+									mandatory
+									@update:selected="(id) => devToolsPanelStore.setCurrentScriptId(id[0])">
 							</v-list>
 						</v-menu>
 					</v-app-bar-title>
