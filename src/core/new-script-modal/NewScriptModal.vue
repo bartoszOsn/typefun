@@ -31,7 +31,7 @@ import { ref, watch } from 'vue';
 </script>
 
 <template>
-	<v-dialog v-model="props.visible" @click:outside="() => emit['update:visible'](false)">
+	<v-dialog v-model="props.visible" @click:outside="() => emit('update:visible', false)">
 		<v-card>
 			<v-card-title>
 				New Script

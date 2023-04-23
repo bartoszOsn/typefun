@@ -14,6 +14,9 @@ export const useManageScriptsStore = defineStore('manageScriptsStore', {
 	},
 
 	actions: {
+		setCurrentScript(id: number) {
+			this.currentScriptId = id;
+		},
 		setCode(code: string) {
 			const scriptsStore = useScriptsStore();
 
@@ -23,14 +26,21 @@ export const useManageScriptsStore = defineStore('manageScriptsStore', {
 
 			scriptsStore.setCode(this.currentScriptId, code);
 		},
-		saveCode() {
+		saveCurrentScript() {
 			const scriptsStore = useScriptsStore();
 
 			if (this.currentScriptId === null) {
 				throw new Error('No script is selected');
 			}
 
-			scriptsStore.saveCode(this.currentScriptId);
-		}
+			scriptsStore.saveCurrentScript(this.currentScriptId);
+		},
+		revertCurrentScript() {
+			const currentScriptId = this.currentScriptId;
+			if (currentScriptId !== null) {
+				const scriptsStore = useScriptsStore();
+				scriptsStore.revertCode(currentScriptId);
+			}
+		},
 	}
 });

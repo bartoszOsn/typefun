@@ -45,7 +45,7 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 			const currentScriptId = this.currentScriptId;
 			if (currentScriptId !== null) {
 				const scriptsStore = useScriptsStore();
-				scriptsStore.saveCode(currentScriptId);
+				scriptsStore.saveCurrentScript(currentScriptId);
 			}
 		},
 		revertCurrentScript() {

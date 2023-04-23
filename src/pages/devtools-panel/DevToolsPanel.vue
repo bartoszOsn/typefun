@@ -11,10 +11,11 @@ import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
 import { watchEffect } from 'vue';
+import ModifiedDot from '@/utils/modifiedDot.vue';
+import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
-devToolsPanelStore.setFirstApplicableScriptAsCurrent();
 const { displayEvent } = useConsole();
 useListenToUrl();
 
@@ -66,8 +67,8 @@ const showDiff = (): void => {};
 				<v-app-bar>
 					<v-app-bar-title>
 						<template v-slot:text>
-							<span>{{ devToolsPanelStore.currentScript.name }}</span>
-							<span v-if="devToolsPanelStore.currentScript.code.modified" class="font-weight-black text-amber"> *</span>
+							<span>{{ devToolsPanelStore.currentScript?.name }}</span>
+							<ModifiedDot v-if="devToolsPanelStore.currentScript?.code.modified" />
 						</template>
 
 						<v-menu>
@@ -84,38 +85,10 @@ const showDiff = (): void => {};
 						</v-menu>
 					</v-app-bar-title>
 					<template v-slot:append>
-						<v-tooltip text="Revert" location="top">
-							<template  v-slot:activator="{ props }">
-								<div v-bind="props">
-									<v-btn icon="mdi-arrow-u-left-top"
-										   @click="revertScript"
-										   :disabled="!devToolsPanelStore.currentScript.code.modified">
-									</v-btn>
-								</div>
-							</template>
-						</v-tooltip>
-
-						<v-tooltip text="Difference – Not implemented yet." location="top">
-							<template  v-slot:activator="{ props }">
-								<div v-bind="props">
-									<v-btn icon="mdi-swap-horizontal-bold"
-										   @click="showDiff"
-										   :disabled="!devToolsPanelStore.currentScript.code.modified">
-									</v-btn>
-								</div>
-							</template>
-						</v-tooltip>
-
-						<v-tooltip text="Save" location="top">
-							<template  v-slot:activator="{ props }">
-								<div v-bind="props">
-									<v-btn icon="mdi-content-save"
-										   @click="saveScript"
-										   :disabled="!devToolsPanelStore.currentScript.code.modified">
-									</v-btn>
-								</div>
-							</template>
-						</v-tooltip>
+						<VersionControllButtons :disabled="!devToolsPanelStore.currentScript?.code.modified"
+												@revert="revertScript"
+												@diff="showDiff"
+												@save="saveScript" />
 
 						<v-divider vertical class="mx-4"></v-divider>
 
@@ -133,7 +106,7 @@ const showDiff = (): void => {};
 					</template>
 				</v-app-bar>
 				<v-main class="main-container">
-					<editor :code="devToolsPanelStore.currentScript.code.draft"
+					<editor :code="devToolsPanelStore.currentScript?.code.draft ?? ''"
 							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)" />
 				</v-main>
 			</template>

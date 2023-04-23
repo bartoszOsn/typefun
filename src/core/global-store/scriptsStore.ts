@@ -61,7 +61,7 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 				}
 			});
 		},
-		saveCode(scriptId: number) {
+		saveCurrentScript(scriptId: number) {
 			this.$patch((state) => {
 				const script = state.scripts.find(script => script.id === scriptId);
 				if (script) {
