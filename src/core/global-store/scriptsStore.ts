@@ -35,6 +35,12 @@ const initialState = {
 export const useScriptsStore = defineStore(scriptsStoreId, {
 	state: () => ({ ...initialState }),
 
+	getters: {
+		getScriptById: (state) => (scriptId: number) => {
+			return state.scripts.find(script => script.id === scriptId);
+		}
+	},
+
 	actions: {
 		addScript(name: string, urlPattern: string) {
 			this.$patch((state) => {
@@ -50,6 +56,11 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 					}
 				});
 				state.nextScriptId++;
+			});
+		},
+		removeScript(scriptId: number) {
+			this.$patch((state) => {
+				state.scripts = state.scripts.filter(script => script.id !== scriptId);
 			});
 		},
 		setCode(scriptId: number, code: string) {
@@ -79,6 +90,15 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 					console.log('revertCode1', scriptId, script);
 					script.code.draft = script.code.raw;
 					script.code.modified = false;
+				}
+			});
+		},
+		editScriptMeta(scriptId: number, name: string, urlPattern: string) {
+			this.$patch((state) => {
+				const script = state.scripts.find(script => script.id === scriptId);
+				if (script) {
+					script.name = name;
+					script.urlPattern = urlPattern;
 				}
 			});
 		},

@@ -3,6 +3,11 @@ import { ref, watch } from 'vue';
 
 	const props = defineProps<{
 		visible: boolean;
+		initialValues?: {
+			name: string;
+			pattern: string;
+		};
+		submitLabel?: string;
 	}>();
 
 	const emit = defineEmits<{
@@ -24,8 +29,8 @@ import { ref, watch } from 'vue';
 
 	watch(() => props.visible, (visible) => {
 		if (visible) {
-			name.value = '';
-			pattern.value = '';
+			name.value = props.initialValues?.name ?? '';
+			pattern.value = props.initialValues?.pattern ?? '';
 		}
 	});
 </script>
@@ -45,7 +50,7 @@ import { ref, watch } from 'vue';
 			<v-card-actions>
 				<v-spacer />
 				<v-btn @click="hide">Cancel</v-btn>
-				<v-btn @click="create">Create</v-btn>
+				<v-btn @click="create">{{ props.submitLabel ?? 'Create'}}</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>

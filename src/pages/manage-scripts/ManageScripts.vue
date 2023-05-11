@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
+import ScriptListItem from './ScriptListItem.vue';
 
 const scriptsStore = useScriptsStore();
 const manageScriptsStore = useManageScriptsStore();
@@ -57,16 +58,11 @@ const saveScript = (): void => {
 		<v-navigation-drawer :permanent="true">
 			<v-list>
 				<v-list-subheader>SCRIPTS</v-list-subheader>
-				<v-list-item v-for="scriptName in scriptsStore.scripts"
-							 @click="manageScriptsStore.setCurrentScript(scriptName.id)"
-							 :active="manageScriptsStore.currentScriptId === scriptName.id"
-							 :key="scriptName.id"
-							 :value="scriptName.id">
-					<v-list-item-title>
-						{{ scriptName.name }}
-						<ModifiedDot v-if="scriptName.code.modified" />
-					</v-list-item-title>
+				<v-list-item prepend-icon="mdi-plus" @click="addScript">
+					<v-list-item-title>Add script</v-list-item-title>
 				</v-list-item>
+				<v-divider inset></v-divider>
+				<ScriptListItem v-for="script in scriptsStore.scripts" :key="script.id" :currentScriptId="script.id" />
 			</v-list>
 
 			<template v-slot:append>
@@ -74,19 +70,6 @@ const saveScript = (): void => {
 				<v-btn prepend-icon="mdi-plus" class="ma-2" @click="addScript">Add script</v-btn>
 				<v-btn prepend-icon="mdi-delete" class="ma-2" @click="resetState">Reset state</v-btn>
 				<v-divider />
-<!--				<div class="pa-2">-->
-<!--					<v-form validate-on="submit" @submit.prevent="submit">-->
-<!--						<v-text-field-->
-<!--							model-value="Hello world!"-->
-<!--							label="Script name"-->
-<!--						></v-text-field>-->
-<!--						<v-text-field-->
-<!--							model-value="https://reddit.com/*."-->
-<!--							label="URL pattern"-->
-<!--						></v-text-field>-->
-<!--						<v-btn type="submit" block class="mt-2">Save</v-btn>-->
-<!--					</v-form>-->
-<!--				</div>-->
 			</template>
 		</v-navigation-drawer>
 		<v-main class="main-container">
