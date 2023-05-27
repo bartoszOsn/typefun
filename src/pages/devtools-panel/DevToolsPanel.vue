@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import browser from 'webextension-polyfill';
 import 'typescript/lib/typescriptServices';
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
@@ -13,6 +12,8 @@ import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicab
 import { watchEffect } from 'vue';
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
+import { executeScript } from '@/core/script-executor/executeScript';
+import browser from 'webextension-polyfill';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
@@ -33,12 +34,14 @@ const run: () => void = () => {
 
 	const transpiled = compileTs(devToolsPanelStore.currentScript?.code.draft);
 
-	browser.devtools.inspectedWindow.eval(transpiled)
-		.then(([result, exception]) => {
-			if (!result && exception && exception.isException) {
-				displayEvent({ eventType: 'exception', message: exception.value });
-			}
-		})
+	executeScript(transpiled, browser.devtools.inspectedWindow.tabId);
+
+	// browser.devtools.inspectedWindow.eval(transpiled)
+	// 	.then(([result, exception]) => {
+	// 		if (!result && exception && exception.isException) {
+	// 			displayEvent({ eventType: 'exception', message: exception.value });
+	// 		}
+	// 	})
 };
 
 const createScript = (name: string, pattern: string): void => {

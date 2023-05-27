@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia';
 import { compileTs } from '../ts-compilator/compileTs';
 import { ScriptsStoreState } from './ScriptsStoreState';
-
-export const scriptsStoreId = 'scripts';
+import { scriptsStoreId } from './scriptsStoreId';
 
 const initialState: ScriptsStoreState = {
 	nextScriptId: 1,

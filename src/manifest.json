@@ -10,7 +10,10 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*"],
-			"js": ["feature/devtools-console/shimConsoleContentScript.ts"],
+			"js": [
+				"feature/devtools-console/shimConsoleContentScript.ts",
+				"core/script-executor/content-script/ScriptExecutorContentScript.ts"
+			],
 			"run_at": "document_end"
 		}
 	],
