@@ -1,21 +1,10 @@
 import { defineStore } from 'pinia';
 import { compileTs } from '../ts-compilator/compileTs';
-
-export interface Script {
-	id: number;
-	name: string;
-	urlPattern: string;
-	code: {
-		raw: string;
-		compiled: string;
-		draft: string;
-		modified: boolean;
-	}
-}
+import { ScriptsStoreState } from './ScriptsStoreState';
 
 export const scriptsStoreId = 'scripts';
 
-const initialState = {
+const initialState: ScriptsStoreState = {
 	nextScriptId: 1,
 	scripts: [
 		{
@@ -29,7 +18,7 @@ const initialState = {
 				modified: false
 			}
 		}
-	] as Array<Script>,
+	],
 }
 
 export const useScriptsStore = defineStore(scriptsStoreId, {
