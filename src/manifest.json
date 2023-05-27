@@ -11,16 +11,9 @@
 		{
 			"matches": ["*://*/*"],
 			"js": [
-				"feature/devtools-console/shimConsoleContentScript.ts",
 				"core/script-executor/content-script/ScriptExecutorContentScript.ts"
 			],
 			"run_at": "document_end"
-		}
-	],
-	"web_accessible_resources": [
-		{
-			"matches": ["*://*/*"],
-			"resources": ["feature/devtools-console/shimConsolePageScript.ts"]
 		}
 	]
 }

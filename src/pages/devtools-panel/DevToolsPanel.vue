@@ -2,7 +2,6 @@
 import 'typescript/lib/typescriptServices';
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
-import { useConsole } from '@/feature//devtools-console/useConsole';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';
 import { useListenToUrl } from '@/feature/devtools-panel-store/useListenToUrl';
 import { compileTs } from '@/core/ts-compilator/compileTs';
@@ -17,7 +16,6 @@ import browser from 'webextension-polyfill';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
-const { displayEvent } = useConsole();
 useListenToUrl();
 
 const stopWatchingForFirstApplicableScript = watchEffect(() => {
@@ -36,11 +34,7 @@ const run: () => void = () => {
 
 	executeScript(transpiled, browser.devtools.inspectedWindow.tabId);
 
-	// browser.devtools.inspectedWindow.eval(transpiled)
-	// 	.then(([result, exception]) => {
-	// 		if (!result && exception && exception.isException) {
-	// 			displayEvent({ eventType: 'exception', message: exception.value });
-	// 		}
+	// browser.devtools.inspectedWindow.eval(transpiled).then()
 	// 	})
 };
 
