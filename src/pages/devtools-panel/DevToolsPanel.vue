@@ -54,6 +54,16 @@ const saveScript = (): void => {
 	devToolsPanelStore.saveCurrentScript();
 }
 
+const selectScript = (scriptId: Array<unknown>): void => {
+	const firstId = scriptId[0];
+
+	if (typeof firstId != 'number') {
+		throw new Error('Script id is not a number');
+	}
+
+	devToolsPanelStore.setCurrentScriptId(firstId);
+}
+
 const showDiff = (): void => {};
 </script>
 
@@ -80,7 +90,7 @@ const showDiff = (): void => {};
 									item-value="id"
 									:selected="[devToolsPanelStore.currentScriptId]"
 									mandatory
-									@update:selected="(id) => devToolsPanelStore.setCurrentScriptId(id[0])">
+									@update:selected="selectScript">
 							</v-list>
 						</v-menu>
 					</v-app-bar-title>

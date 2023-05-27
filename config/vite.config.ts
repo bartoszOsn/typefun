@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { tsServicesPlugin } from './tsServicesPlugin';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { domainEnforcerPlugin } from './domainEnforcerPlugin';
+import checker from 'vite-plugin-checker';
 import * as Path from 'path';
 
 const root = Path.resolve(__dirname, '../');
@@ -34,6 +35,9 @@ export default defineConfig({
 				path: Path.resolve(root, './src/utils'),
 				allowed: []
 			}
-		])
+		]),
+		checker({ vueTsc: {
+			root: root
+		}})
 	],
 })

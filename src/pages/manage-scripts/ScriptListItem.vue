@@ -11,10 +11,10 @@ const props = defineProps<{
 const scriptsStore = useScriptsStore();
 const manageScriptsStore = useManageScriptsStore();
 
-const currentScript = computed(() => scriptsStore.getScriptById(props.currentScriptId));
+const currentScript = computed(() => scriptsStore.getScriptById(props.currentScriptId)!);
 const initialValues = computed(() => ({
-	name: currentScript.value?.name,
-	pattern: currentScript.value?.urlPattern,
+	name: currentScript.value?.name ?? '',
+	pattern: currentScript.value?.urlPattern ?? ''
 }));
 
 const editScriptModalVisible = ref(false);
