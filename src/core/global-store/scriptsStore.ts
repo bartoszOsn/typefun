@@ -92,6 +92,20 @@ export const useScriptsStore = defineStore(scriptsStoreId, {
 		},
 		resetState() {
 			this.$reset();
+		},
+		addIgnoresToScript(scriptId: number, lineNumbers: number[]) {
+			const script = this.getScriptById(scriptId);
+			if (!script) {
+				return;
+			}
+
+			const reverseSortedLines = Array.from(new Set(lineNumbers))
+											.sort((a, b) => (a - b) * -1);
+			const lines = script.code.draft.split('\n');
+			for (const lineNumber of reverseSortedLines) {
+				lines.splice(lineNumber-1, 0, '// @ts-ignore');
+			}
+			script.code.draft = lines.join('\n');
 		}
 	},
 	sync: true

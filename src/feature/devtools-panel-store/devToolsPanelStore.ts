@@ -61,6 +61,13 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 				const scriptsStore = useScriptsStore();
 				scriptsStore.setCode(currentScriptId, code);
 			}
+		},
+		addIgnoresToCurrentScript(ignores: number[]) {
+			const currentScriptId = this.currentScriptId;
+			if (currentScriptId !== null) {
+				const scriptsStore = useScriptsStore();
+				scriptsStore.addIgnoresToScript(currentScriptId, ignores);
+			}
 		}
 	}
 });

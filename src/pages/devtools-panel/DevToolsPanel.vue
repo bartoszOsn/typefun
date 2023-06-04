@@ -8,15 +8,19 @@ import { compileTs } from '@/core/ts-compilator/compileTs';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
-import { watchEffect } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import { executeScript } from '@/core/script-executor/executeScript';
 import browser from 'webextension-polyfill';
+import { editor } from 'monaco-editor';
+import IMarker = editor.IMarker;
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
 useListenToUrl();
+
+const editorErrors = ref<Array<IMarker>>([]);
 
 const stopWatchingForFirstApplicableScript = watchEffect(() => {
 	if (devToolsPanelStore.applicableScripts.length > 0) {
@@ -47,7 +51,12 @@ const revertScript = (): void => {
 	devToolsPanelStore.revertCurrentScript();
 }
 
-const saveScript = (): void => {
+const saveScript = (addIgnores: boolean): void => {
+	if (addIgnores) {
+		devToolsPanelStore.addIgnoresToCurrentScript(
+			editorErrors.value.map(e => e.startLineNumber)
+		);
+	}
 	devToolsPanelStore.saveCurrentScript();
 }
 
@@ -93,6 +102,7 @@ const showDiff = (): void => {};
 					</v-app-bar-title>
 					<template v-slot:append>
 						<VersionControllButtons :disabled="!devToolsPanelStore.currentScript?.code.modified"
+												:errors="editorErrors"
 												@revert="revertScript"
 												@diff="showDiff"
 												@save="saveScript" />
@@ -114,7 +124,8 @@ const showDiff = (): void => {};
 				</v-app-bar>
 				<v-main class="main-container">
 					<editor :code="devToolsPanelStore.currentScript?.code.draft ?? ''"
-							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)" />
+							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)"
+							@update:errors="(errors) => editorErrors = errors" />
 				</v-main>
 			</template>
 		</v-app>

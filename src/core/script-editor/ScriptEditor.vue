@@ -1,12 +1,14 @@
 <script setup lang="ts">
 
 import * as monaco from 'monaco-editor';
+import { editor, MarkerSeverity } from 'monaco-editor';
 import 'typescript/lib/typescriptServices';
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker&inline';
 import { getBrowserMode } from '@/utils/getBrowserMode';
+import IMarker = editor.IMarker;
 
 const props = defineProps<{
 	code: string;
@@ -14,6 +16,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	(e: 'update:code', code: string): void;
+	(e: 'update:errors', errors: IMarker[]): void
 }>();
 
 self.MonacoEnvironment = {
@@ -29,8 +32,8 @@ let editor: monaco.editor.IStandaloneCodeEditor | null = null;
 
 onMounted(() => {
 	monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-		noSemanticValidation: true,
-		noSyntaxValidation: false,
+		noSemanticValidation: false,
+		noSyntaxValidation: false
 	});
 
 	monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -47,7 +50,7 @@ onMounted(() => {
 
 	editor = monaco.editor.create(editorDomElement, {
 		value: props.code,
-		language: 'javascript',
+		language: 'typescript',
 		theme: `vs-${getBrowserMode()}`,
 		automaticLayout: true,
 		scrollBeyondLastLine: false,
@@ -55,6 +58,14 @@ onMounted(() => {
 			top: 4,
 			bottom: 0
 		},
+	});
+
+	monaco.editor.onDidChangeMarkers((e) => {
+		const markers = monaco.editor
+			.getModelMarkers({ resource: editor?.getModel()?.uri })
+			.filter(marker => marker.severity === MarkerSeverity.Error);
+
+		emit('update:errors', markers);
 	});
 
 	const disposeOnModelChange = editor.getModel()?.onDidChangeContent(() => {

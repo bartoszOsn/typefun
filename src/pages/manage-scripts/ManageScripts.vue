@@ -8,11 +8,14 @@ import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScri
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import ScriptListItem from './ScriptListItem.vue';
+import { editor } from 'monaco-editor';
+import IMarker = editor.IMarker;
 
 const scriptsStore = useScriptsStore();
 const manageScriptsStore = useManageScriptsStore();
 
 const addScriptModalVisible = ref(false);
+const editorErrors = ref<Array<IMarker>>([]);
 
 const addScript = (): void => {
 	// scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
@@ -35,7 +38,13 @@ const revertScript = (): void => {
 	manageScriptsStore.revertCurrentScript();
 }
 
-const saveScript = (): void => {
+const saveScript = (addIgnores: boolean): void => {
+	if (addIgnores) {
+		manageScriptsStore.addIgnoresToCurrentScript(
+			editorErrors.value.map(e => e.startLineNumber)
+		);
+	}
+
 	manageScriptsStore.saveCurrentScript();
 }
 </script>
@@ -49,6 +58,7 @@ const saveScript = (): void => {
 			</v-toolbar-title>
 			<template v-slot:append>
 				<VersionControllButtons :disabled="!manageScriptsStore.currentScript?.code.modified"
+										:errors="editorErrors"
 									 	@save="saveScript"
 									 	@revert="revertScript"
 										@diff="() => {}"
@@ -73,7 +83,10 @@ const saveScript = (): void => {
 			</template>
 		</v-navigation-drawer>
 		<v-main class="main-container">
-			<editor v-if="manageScriptsStore.currentScript" :code="manageScriptsStore.currentScript.code.draft" @update:code="updateCode" />
+			<editor v-if="manageScriptsStore.currentScript"
+					:code="manageScriptsStore.currentScript.code.draft"
+					@update:code="updateCode"
+					@update:errors="(errors) => editorErrors = errors" />
 		</v-main>
 	</v-app>
 	<NewScriptModal :visible="addScriptModalVisible" @update:visible="addScriptModalVisible = $event" @create="createScript" />
