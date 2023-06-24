@@ -15,12 +15,14 @@ import { executeScript } from '@/core/script-executor/executeScript';
 import browser from 'webextension-polyfill';
 import { editor } from 'monaco-editor';
 import IMarker = editor.IMarker;
+import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
 useListenToUrl();
 
 const editorErrors = ref<Array<IMarker>>([]);
+const isDiffView = ref(false);
 
 const stopWatchingForFirstApplicableScript = watchEffect(() => {
 	if (devToolsPanelStore.applicableScripts.length > 0) {
@@ -70,7 +72,9 @@ const selectScript = (scriptId: Array<unknown>): void => {
 	devToolsPanelStore.setCurrentScriptId(firstId);
 }
 
-const showDiff = (): void => {};
+const showDiff = (diff: boolean): void => {
+	isDiffView.value = diff;
+};
 </script>
 
 <template>
@@ -103,6 +107,7 @@ const showDiff = (): void => {};
 					<template v-slot:append>
 						<VersionControllButtons :disabled="!devToolsPanelStore.currentScript?.code.modified"
 												:errors="editorErrors"
+												:show-diff="isDiffView"
 												@revert="revertScript"
 												@diff="showDiff"
 												@save="saveScript" />
@@ -123,9 +128,13 @@ const showDiff = (): void => {};
 					</template>
 				</v-app-bar>
 				<v-main class="main-container">
-					<editor :code="devToolsPanelStore.currentScript?.code.draft ?? ''"
+					<editor v-if="!isDiffView"
+							:code="devToolsPanelStore.currentScript?.code.draft ?? ''"
 							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)"
 							@update:errors="(errors) => editorErrors = errors" />
+					<ScriptDiffEditor v-else
+									  :current="devToolsPanelStore.currentScript?.code.draft ?? ''"
+									  :previous="devToolsPanelStore.currentScript?.code.raw ?? ''" />
 				</v-main>
 			</template>
 		</v-app>

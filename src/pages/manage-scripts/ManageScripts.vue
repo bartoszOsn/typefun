@@ -10,12 +10,14 @@ import VersionControllButtons from '@/core/version-control-buttons/VersionContro
 import ScriptListItem from './ScriptListItem.vue';
 import { editor } from 'monaco-editor';
 import IMarker = editor.IMarker;
+import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
 
 const scriptsStore = useScriptsStore();
 const manageScriptsStore = useManageScriptsStore();
 
 const addScriptModalVisible = ref(false);
 const editorErrors = ref<Array<IMarker>>([]);
+const isDiffView = ref(false);
 
 const addScript = (): void => {
 	// scriptsStore.addScript('Hello world!', 'https://reddit.com/.*');
@@ -47,6 +49,10 @@ const saveScript = (addIgnores: boolean): void => {
 
 	manageScriptsStore.saveCurrentScript();
 }
+
+const showDiff = (diff: boolean): void => {
+	isDiffView.value = diff;
+};
 </script>
 
 <template>
@@ -59,9 +65,10 @@ const saveScript = (addIgnores: boolean): void => {
 			<template v-slot:append>
 				<VersionControllButtons :disabled="!manageScriptsStore.currentScript?.code.modified"
 										:errors="editorErrors"
+										:showDiff="isDiffView"
 									 	@save="saveScript"
 									 	@revert="revertScript"
-										@diff="() => {}"
+										@diff="showDiff"
 				/>
 			</template>
 		</v-app-bar>
@@ -83,10 +90,15 @@ const saveScript = (addIgnores: boolean): void => {
 			</template>
 		</v-navigation-drawer>
 		<v-main class="main-container">
-			<editor v-if="manageScriptsStore.currentScript"
-					:code="manageScriptsStore.currentScript.code.draft"
-					@update:code="updateCode"
-					@update:errors="(errors) => editorErrors = errors" />
+			<template v-if="manageScriptsStore.currentScript">
+				<editor v-if="!isDiffView"
+						:code="manageScriptsStore.currentScript.code.draft"
+						@update:code="updateCode"
+						@update:errors="(errors) => editorErrors = errors" />
+				<ScriptDiffEditor v-else
+								  :current="manageScriptsStore.currentScript?.code.draft ?? ''"
+								  :previous="manageScriptsStore.currentScript?.code.raw ?? ''" />
+			</template>
 		</v-main>
 	</v-app>
 	<NewScriptModal :visible="addScriptModalVisible" @update:visible="addScriptModalVisible = $event" @create="createScript" />

@@ -6,11 +6,12 @@ import { ref } from 'vue';
 const componentProps = defineProps<{
 	disabled: boolean;
 	errors: Array<IMarker>;
+	showDiff: boolean;
 }>();
 
 const emits = defineEmits<{
 	(e: 'revert'): void;
-	(e: 'diff'): void;
+	(e: 'diff', showDiff: boolean): void;
 	(e: 'save', addIgnores: boolean): void;
 }>();
 
@@ -43,11 +44,11 @@ const addIgnoreAndSave = () => {
 		</template>
 	</v-tooltip>
 
-	<v-tooltip text="Difference – Not implemented yet." location="top">
+	<v-tooltip :text="componentProps.showDiff ? 'Show editor' : 'Show difference'" location="top">
 		<template  v-slot:activator="{ props }">
 			<div v-bind="props">
-				<v-btn icon="mdi-swap-horizontal-bold"
-					   @click="emits('diff')"
+				<v-btn :icon=" componentProps.showDiff ? 'mdi-file-edit' : 'mdi-swap-horizontal-bold'"
+					   @click="emits('diff', !componentProps.showDiff)"
 					   :disabled="componentProps.disabled">
 				</v-btn>
 			</div>
