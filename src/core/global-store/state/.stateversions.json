@@ -1,0 +1,5 @@
+{
+	"versions": "./versions",
+	"anyVersionsFile": "./StateVersions.ts",
+	"versionsTuple": "StateVersions"
+}

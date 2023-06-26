@@ -1,16 +1,3 @@
-export interface Script {
-	id: number;
-	name: string;
-	urlPattern: string;
-	code: {
-		raw: string;
-		compiled: string;
-		draft: string;
-		modified: boolean;
-	}
-}
+import { CurrentState } from './state/CurrentState';
 
-export interface ScriptsStoreState {
-	nextScriptId: number;
-	scripts: Array<Script>;
-}
+export type ScriptsStoreState = CurrentState;

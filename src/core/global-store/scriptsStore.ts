@@ -4,6 +4,7 @@ import { ScriptsStoreState } from './ScriptsStoreState';
 import { scriptsStoreId } from './scriptsStoreId';
 
 const initialState: ScriptsStoreState = {
+	version: 2,
 	nextScriptId: 1,
 	scripts: [
 		{
