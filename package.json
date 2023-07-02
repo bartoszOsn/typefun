@@ -8,7 +8,10 @@
 		"build": "vue-tsc && vite build",
 		"compile": "vue-tsc",
 		"preview": "vite preview",
-		"lint": "eslint --ext .js,.ts,.vue config src"
+		"lint": "eslint --ext .js,.ts,.vue config src",
+		"lint:state": "ts-node-esm --project tsconfig.node.json config/state-lint/index.ts",
+
+		"postinstall": "ts-node-esm --project tsconfig.node.json config/shim_node_modules.ts"
 	},
 	"dependencies": {
 		"@mdi/font": "^7.1.96",
@@ -22,6 +25,7 @@
 	},
 	"devDependencies": {
 		"@bartoszosn/eslint-config-personal": "https://github.com/bartoszOsn/eslint-config-personal.git",
+		"@types/eslint": "^8.40.2",
 		"@types/node": "^18.13.0",
 		"@types/webextension-polyfill": "^0.10.0",
 		"@vitejs/plugin-vue": "^4.0.0",
