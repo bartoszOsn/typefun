@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'typescript/lib/typescriptServices';
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';

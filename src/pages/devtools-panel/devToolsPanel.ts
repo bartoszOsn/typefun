@@ -1,4 +1,3 @@
-import '../../../node_modules/typescript/lib/typescriptServices.js' // TODO same thing imported in DevToolsPanel.vue
 import { createApp } from 'vue'
 import '../style.css'
 import DevToolsPanel from './DevToolsPanel.vue'

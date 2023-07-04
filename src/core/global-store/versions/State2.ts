@@ -1,4 +1,4 @@
-import { BaseState } from '@/core/global-store/state/BaseState';
+import { BaseState } from '@/utils/state-versioning/BaseState';
 
 export interface State2 extends BaseState<2> {
 	nextScriptId: number;

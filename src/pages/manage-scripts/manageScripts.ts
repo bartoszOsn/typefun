@@ -1,4 +1,3 @@
-import '../../../node_modules/typescript/lib/typescriptServices.js'
 import { createApp } from 'vue'
 import '../style.css'
 import ManageScripts from './ManageScripts.vue';

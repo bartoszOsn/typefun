@@ -1,4 +1,4 @@
-import { BaseState } from '@/core/global-store/state/BaseState';
+import { BaseState } from '@/utils/state-versioning/BaseState';
 
 export interface State1 extends BaseState<1> {
 	scripts: Array<Script>;
