@@ -1,5 +1,5 @@
-name: verify
-run-name: verify commit
+name: verify-pull-request
+run-name: verify pull request
 on: [pull_request]
 jobs:
   verify:
