@@ -2,7 +2,7 @@ import { AnyState, BaseStateList } from './state';
 import { MigrationMap } from '@/utils/state-versioning/migrations';
 
 export interface Migrate<TStateList extends BaseStateList, CurrentState extends TStateList[number]> {
-	(state: AnyState<TStateList>): CurrentState
+	(state: AnyState<TStateList>): CurrentState;
 }
 
 export function getMigrate<TStateList extends BaseStateList, CurrentState extends TStateList[number]>(

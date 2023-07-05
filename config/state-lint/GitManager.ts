@@ -1,5 +1,5 @@
-import { execAsync } from './utils.js';
 import { resolve } from 'path';
+import { execAsync } from './utils.js';
 
 export class GitManager {
 	private commitLog: Array<FileEntry> | null = null;
@@ -12,7 +12,7 @@ export class GitManager {
 	async anyFileModifiedInDirectory(directory: string): Promise<boolean> {
 		const fileEntries = await this.getCommitLog();
 
-		for (let fileEntry of fileEntries) {
+		for (const fileEntry of fileEntries) {
 			if (fileEntry.type === 'M' && fileEntry.path.startsWith(directory)) {
 				return true;
 			}
@@ -39,7 +39,7 @@ export class GitManager {
 		return bashOutput.split('\n')
 			.filter(line => line.startsWith('M\t') || line.startsWith('A\t') || line.startsWith('D\t'))
 			.map(line => line.split('\t') as ['M' | 'A' | 'D', string])
-			.map(([type, path]: ['M' | 'A' | 'D', string]): FileEntry => ({type, path: resolve(gitRoot, path)}));
+			.map(([type, path]: ['M' | 'A' | 'D', string]): FileEntry => ({ type, path: resolve(gitRoot, path) }));
 	}
 }
 

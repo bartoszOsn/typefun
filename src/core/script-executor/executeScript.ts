@@ -4,7 +4,7 @@ import { ExecuteScriptMessage } from '@/core/script-executor/ExecuteScriptMessag
 export async function executeScript(script: string, tabId: number) {
 	const message: ExecuteScriptMessage = {
 		type: 'execute-script',
-		script: script
+		script
 	};
 
 	return browser.tabs.sendMessage(tabId, message);

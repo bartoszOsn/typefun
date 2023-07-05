@@ -1,7 +1,7 @@
-import { loadScriptsStoreStateFromStorage } from '../../global-store/loadScriptsStoreStateFromStorage';
-import { executeScriptInContentScript } from './executeScriptInContentScript';
-import { isExecuteScriptMessage } from '../ExecuteScriptMessage';
 import browser from 'webextension-polyfill';
+import { loadScriptsStoreStateFromStorage } from '../../global-store/loadScriptsStoreStateFromStorage';
+import { isExecuteScriptMessage } from '../ExecuteScriptMessage';
+import { executeScriptInContentScript } from './executeScriptInContentScript';
 
 export {};
 
@@ -15,7 +15,7 @@ export {};
 		return;
 	}
 
-	for (let script of scripts) {
+	for (const script of scripts) {
 		executeScriptInContentScript(script.code.compiled);
 	}
 })().then();

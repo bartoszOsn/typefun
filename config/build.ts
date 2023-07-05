@@ -11,7 +11,7 @@ const options = oppa({ name: 'build', description: 'Builds the extension' })
 		name: 'mode',
 		alias: 'm',
 		type: 'string',
-			description: 'Build mode',
+		description: 'Build mode',
 		values: [
 			{ production: 'Build for production' },
 			{ development: 'Build for development' }

@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	(e: 'update:code', code: string): void;
-	(e: 'update:errors', errors: IMarker[]): void
+	(e: 'update:errors', errors: Array<IMarker>): void;
 }>();
 
 self.MonacoEnvironment = {

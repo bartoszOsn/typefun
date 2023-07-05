@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
+import { ref } from 'vue';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
-import { ref } from 'vue';
 
 const emit = defineEmits<{
 	(e: 'create', name: string, pattern: string): void;

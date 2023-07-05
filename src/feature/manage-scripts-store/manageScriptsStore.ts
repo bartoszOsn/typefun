@@ -42,7 +42,7 @@ export const useManageScriptsStore = defineStore('manageScriptsStore', {
 				scriptsStore.revertCode(currentScriptId);
 			}
 		},
-		addIgnoresToCurrentScript(ignores: number[]) {
+		addIgnoresToCurrentScript(ignores: Array<number>) {
 			const currentScriptId = this.currentScriptId;
 			if (currentScriptId !== null) {
 				const scriptsStore = useScriptsStore();

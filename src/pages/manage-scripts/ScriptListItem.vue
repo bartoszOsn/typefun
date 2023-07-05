@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
+import { computed, ref } from 'vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
-import { computed, ref } from 'vue';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
 
 const props = defineProps<{
