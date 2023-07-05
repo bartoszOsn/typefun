@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import browser from 'webextension-polyfill';
 import { editor } from 'monaco-editor';
 import IMarker = editor.IMarker;
@@ -127,7 +127,7 @@ const showDiff = (diff: boolean): void => {
 					</template>
 				</v-app-bar>
 				<v-main class="main-container">
-					<editor v-if="!isDiffView"
+					<Editor v-if="!isDiffView"
 							:code="devToolsPanelStore.currentScript?.code.draft ?? ''"
 							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)"
 							@update:errors="(errors) => editorErrors = errors" />

@@ -23,7 +23,8 @@ const saveScript = (name: string, pattern: string): void => {
 	scriptsStore.editScriptMeta(props.currentScriptId, name, pattern);
 };
 
-const openEditScriptModal = (id: number): void => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const openEditScriptModal = (_id: number): void => {
 	console.log('visible');
 	editScriptModalVisible.value = true;
 }

@@ -91,7 +91,7 @@ const showDiff = (diff: boolean): void => {
 		</v-navigation-drawer>
 		<v-main class="main-container">
 			<template v-if="manageScriptsStore.currentScript">
-				<editor v-if="!isDiffView"
+				<Editor v-if="!isDiffView"
 						:code="manageScriptsStore.currentScript.code.draft"
 						@update:code="updateCode"
 						@update:errors="(errors) => editorErrors = errors" />

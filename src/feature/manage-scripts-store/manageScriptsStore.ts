@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import browser from 'webextension-polyfill';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 
 export const useManageScriptsStore = defineStore('manageScriptsStore', {

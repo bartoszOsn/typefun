@@ -1,7 +1,6 @@
 import { PiniaPluginContext, StateTree } from 'pinia';
 import browser from 'webextension-polyfill';
 import { Migrate } from '@/utils/state-versioning/migrate';
-import { AnyState, BaseStateList } from '@/utils/state-versioning';
 
 const storeActionMessageType = 'store-action';
 
