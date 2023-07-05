@@ -10,6 +10,7 @@ export function getMigrate<TStateList extends BaseStateList, CurrentState extend
 ): Migrate<TStateList, CurrentState> {
 	return (state: AnyState<TStateList>): CurrentState => {
 		while(state.version in migrations) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			state = (migrations[state.version as keyof typeof migrations] as any)(state);
 		}
 

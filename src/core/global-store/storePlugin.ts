@@ -12,6 +12,7 @@ declare module 'pinia' {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPluginContext): void => {
 	let invokingExternalAction = false;
 
@@ -68,6 +69,7 @@ export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPlugin
 			const initialState = store[context.store.$id];
 			if (initialState) {
 				const state = migrate(initialState);
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				context.store.$patch(state as any);
 			}
 		});
