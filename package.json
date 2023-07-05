@@ -4,8 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "export NODE_OPTIONS=--max-old-space-size=32768 && ts-node-esm config/build.ts",
-		"build": "vue-tsc && vite build",
+		"dev": "export NODE_OPTIONS=--max-old-space-size=32768 && ts-node-esm config/build.ts --mode development",
+		"build": "export NODE_OPTIONS=--max-old-space-size=32768 && ts-node-esm config/build.ts --mode production",
 		"compile": "vue-tsc",
 		"preview": "vite preview",
 		"lint": "eslint --ext .js,.ts,.vue config src",

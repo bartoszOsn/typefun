@@ -7,6 +7,17 @@ import { InputOption, OutputOptions } from 'rollup';
 import { oppa } from 'oppa';
 
 const options = oppa({ name: 'build', description: 'Builds the extension' })
+	.add({
+		name: 'mode',
+		alias: 'm',
+		type: 'string',
+			description: 'Build mode',
+		values: [
+			{ production: 'Build for production' },
+			{ development: 'Build for development' }
+		],
+		default: 'production'
+	})
 	.add({ name: 'watch', alias: 'w', type: 'boolean', description: 'Watch for changes' })
 	.add({ name: 'sourcemap', alias: 's', type: 'boolean', description: 'Generate sourcemaps' })
 	.parse(process.argv.slice(2));
@@ -35,7 +46,7 @@ async function main(): Promise<void> {
 
 	await entryManager.handle((entry) => {
 		return build({
-			mode: 'development',
+			mode: options.args.mode,
 			build: {
 				rollupOptions: {
 					input: entry.input,
