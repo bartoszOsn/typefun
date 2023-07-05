@@ -20,7 +20,7 @@ export {};
 	}
 })().then();
 
-function listenForScriptExecutionRequests() {
+function listenForScriptExecutionRequests(): void {
 	browser.runtime.onMessage.addListener((message) => {
 		if (isExecuteScriptMessage(message)) {
 			executeScriptInContentScript(message.script);

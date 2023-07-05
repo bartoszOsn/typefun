@@ -11,7 +11,7 @@ declare module 'pinia' {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-function-return-type
 export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPluginContext): void => {
 	let invokingExternalAction = false;
 

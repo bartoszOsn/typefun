@@ -94,6 +94,6 @@ function validateDomains(absoluteId: string, importer: string, domains: Array<Do
 }
 
 function getDomain(absoluteId: string, domains: Array<DomainOptions>): DomainOptions | null {
-	absoluteId = Path.normalize(absoluteId);
-	return domains.find(domain => absoluteId.startsWith(domain.path)) ?? null;
+	const normalized = Path.normalize(absoluteId);
+	return domains.find(domain => normalized.startsWith(domain.path)) ?? null;
 }

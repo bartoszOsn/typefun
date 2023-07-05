@@ -17,7 +17,7 @@ const emits = defineEmits<{
 
 const saveInlineDialogShown = ref(false);
 
-const onSave = () => {
+const onSave = (): void => {
 	if (componentProps.errors.length > 0) {
 		saveInlineDialogShown.value = true;
 	} else {
@@ -26,7 +26,7 @@ const onSave = () => {
 	}
 };
 
-const addIgnoreAndSave = () => {
+const addIgnoreAndSave = (): void => {
 	emits('save', true);
 	saveInlineDialogShown.value = false;
 };

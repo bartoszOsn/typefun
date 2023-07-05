@@ -9,11 +9,12 @@ export function getMigrate<TStateList extends BaseStateList, CurrentState extend
 	migrations: MigrationMap<TStateList, CurrentState>
 ): Migrate<TStateList, CurrentState> {
 	return (state: AnyState<TStateList>): CurrentState => {
+		let migratedState = state;
 		while(state.version in migrations) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			state = (migrations[state.version as keyof typeof migrations] as any)(state);
+			migratedState = (migrations[state.version as keyof typeof migrations] as any)(state);
 		}
 
-		return state as CurrentState;
+		return migratedState as CurrentState;
 	}
 }

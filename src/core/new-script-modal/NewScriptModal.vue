@@ -18,12 +18,12 @@ const emit = defineEmits<{
 const name = ref('');
 const pattern = ref('');
 
-const create = () => {
+const create = (): void => {
 	emit('create', name.value, pattern.value);
 	emit('update:visible', false);
 }
 
-const hide = () => {
+const hide = (): void => {
 	emit('update:visible', false);
 }
 

@@ -59,7 +59,7 @@ onMounted(() => {
 		},
 	});
 
-	monaco.editor.onDidChangeMarkers((e) => {
+	monaco.editor.onDidChangeMarkers(() => {
 		const markers = monaco.editor
 			.getModelMarkers({ resource: editor?.getModel()?.uri })
 			.filter(marker => marker.severity === MarkerSeverity.Error);

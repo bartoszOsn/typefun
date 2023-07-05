@@ -9,11 +9,11 @@ const emit = defineEmits<{
 
 const newScriptModalVisible = ref(false);
 
-const openNewScriptModal = () => {
+const openNewScriptModal = (): void => {
 	newScriptModalVisible.value = true;
 }
 
-const createScript = (name: string, pattern: string) => {
+const createScript = (name: string, pattern: string): void => {
 	emit('create', name, pattern);
 }
 
