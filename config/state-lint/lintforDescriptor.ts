@@ -11,9 +11,11 @@ export async function lintforDescriptor(descriptor: StateDirectoryDescriptor, gi
 }
 
 async function verifyNoModifiedState(descriptor: StateDirectoryDescriptor, gitManager: GitManager): Promise<void> {
-	if (await gitManager.anyFileModifiedInDirectory(descriptor.versions)) {
+	const modifiedFiles = await gitManager.filesModifiedInDirectory(descriptor.versions);
+	if (modifiedFiles.length > 0) {
 		throw new Error(
 			`File in directory ${descriptor.versions} has been modified in last commit.\n' +
+			'${modifiedFiles.join('\n')}\n' +
 			'DO NOT MODIFY EXISTING STATE INTERFACES!\n` +
 			'Create a new one instead.'
 		)

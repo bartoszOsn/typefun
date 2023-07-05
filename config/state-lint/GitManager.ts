@@ -9,16 +9,14 @@ export class GitManager {
 		private readonly headCommit: string
 	) {}
 
-	async anyFileModifiedInDirectory(directory: string): Promise<boolean> {
+	async filesModifiedInDirectory(directory: string): Promise<Array<string>> {
 		const fileEntries = await this.getCommitLog();
 
-		for (const fileEntry of fileEntries) {
-			if (fileEntry.type === 'M' && fileEntry.path.startsWith(directory)) {
-				return true;
-			}
-		}
+		const modifiedFiles = fileEntries
+			.filter(fileEntry => fileEntry.type === 'M' && fileEntry.path.startsWith(directory))
+			.map(fileEntry => fileEntry.path);
 
-		return false;
+		return modifiedFiles;
 	}
 
 	private async getCommitLog(): Promise<Array<FileEntry>> {
