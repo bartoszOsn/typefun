@@ -10,7 +10,6 @@ jobs:
         with:
           node-version: '14'
       - run: npm install -g yarn
-      - run: bats -v
       - run: yarn install
       - run: yarn lint
       - run: yarn lint:state
