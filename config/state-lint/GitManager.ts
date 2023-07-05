@@ -32,6 +32,8 @@ export class GitManager {
 	private async loadCommitLog(): Promise<Array<FileEntry>> {
 		const gitRoot = (await execAsync('git rev-parse --show-toplevel')).trim();
 
+		console.log('branches', await execAsync('git branch -a'))
+
 		const bashOutput =
 			await execAsync(`git --no-pager diff ${this.baseCommit}..${this.headCommit} --name-status`);
 		return bashOutput.split('\n')
