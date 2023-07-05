@@ -36,7 +36,7 @@ watch(() => props.visible, (visible) => {
 </script>
 
 <template>
-	<v-dialog v-model="props.visible" @click:outside="() => emit('update:visible', false)">
+	<v-dialog :model-value="props.visible" @update:model-value="() => emit('update:visible', false)" @click:outside="() => emit('update:visible', false)">
 		<v-card>
 			<v-card-title>
 				New Script
