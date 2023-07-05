@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { editor } from 'monaco-editor';
-import IMarker = editor.IMarker;
 import { ref } from 'vue';
+import IMarker = editor.IMarker;
 
 const componentProps = defineProps<{
 	disabled: boolean;
