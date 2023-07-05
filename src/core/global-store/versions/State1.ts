@@ -1,6 +1,7 @@
 import { BaseState } from '@/utils/state-versioning/BaseState';
 
 export interface State1 extends BaseState<1> {
+	nextScript: number;
 	scripts: Array<Script>;
 }
 

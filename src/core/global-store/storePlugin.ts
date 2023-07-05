@@ -65,8 +65,11 @@ export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPlugin
 
 	function loadStoreFromStorage(): void {
 		browser.storage.local.get(context.store.$id).then((store) => {
-			const state = migrate(store[context.store.$id]);
-			context.store.$patch(state as any);
+			const initialState = store[context.store.$id];
+			if (initialState) {
+				const state = migrate(initialState);
+				context.store.$patch(state as any);
+			}
 		});
 	}
 }

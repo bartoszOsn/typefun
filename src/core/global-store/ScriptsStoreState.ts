@@ -16,14 +16,16 @@ export const migrate = getMigrate<StateVersions, ScriptsStoreState>({
 		return {
 			...state,
 			version: 1,
+			nextScript: 0,
 			scripts: []
 		}
 	},
 	1: (state: State1): State2 => {
+		const { nextScript, ...rest } = state;
 		return {
-			...state,
+			...rest,
 			version: 2,
-			nextScriptId: 1,
+			nextScriptId: nextScript
 		}
 	},
 })
