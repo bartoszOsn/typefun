@@ -2,7 +2,7 @@ import { readdir, stat, readFile } from 'node:fs/promises';
 import { resolve } from 'path';
 import { exec } from 'child_process';
 
-export async function getFiles(dir): Array<string> {
+export async function getFiles(dir): Promise<Array<string>> {
 	const subdirs = await readdir(dir);
 	const files = await Promise.all(subdirs.map(async (subdir) => {
 		const res = resolve(dir, subdir);
