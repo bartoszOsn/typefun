@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
-import { ref } from 'vue';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
+import { ref } from 'vue';
 
 const emit = defineEmits<{
 	(e: 'create', name: string, pattern: string): void;
@@ -9,11 +9,11 @@ const emit = defineEmits<{
 
 const newScriptModalVisible = ref(false);
 
-const openNewScriptModal = (): void => {
+const openNewScriptModal = () => {
 	newScriptModalVisible.value = true;
 }
 
-const createScript = (name: string, pattern: string): void => {
+const createScript = (name: string, pattern: string) => {
 	emit('create', name, pattern);
 }
 

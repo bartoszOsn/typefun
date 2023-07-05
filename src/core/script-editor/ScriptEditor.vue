@@ -6,8 +6,8 @@ import { onMounted, ref, watch } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker&inline';
-import IMarker = editor.IMarker;
 import { getBrowserMode } from '@/utils/getBrowserMode';
+import IMarker = editor.IMarker;
 
 const props = defineProps<{
 	code: string;
@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	(e: 'update:code', code: string): void;
-	(e: 'update:errors', errors: Array<IMarker>): void;
+	(e: 'update:errors', errors: IMarker[]): void
 }>();
 
 self.MonacoEnvironment = {
@@ -59,7 +59,7 @@ onMounted(() => {
 		},
 	});
 
-	monaco.editor.onDidChangeMarkers(() => {
+	monaco.editor.onDidChangeMarkers((e) => {
 		const markers = monaco.editor
 			.getModelMarkers({ resource: editor?.getModel()?.uri })
 			.filter(marker => marker.severity === MarkerSeverity.Error);

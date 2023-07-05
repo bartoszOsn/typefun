@@ -15,5 +15,5 @@ export interface Script {
 		compiled: string;
 		draft: string;
 		modified: boolean;
-	};
+	}
 }

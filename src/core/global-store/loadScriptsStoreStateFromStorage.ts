@@ -1,5 +1,5 @@
-import browser from 'webextension-polyfill';
 import { ScriptsStoreState } from './ScriptsStoreState';
+import browser from 'webextension-polyfill';
 import { scriptsStoreId } from './scriptsStoreId';
 
 export function loadScriptsStoreStateFromStorage(): Promise<ScriptsStoreState> {

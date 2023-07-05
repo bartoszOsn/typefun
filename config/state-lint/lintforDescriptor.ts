@@ -1,8 +1,8 @@
+import { StateDirectoryDescriptor } from './StateDirectoryDescriptor.js';
+import { GitManager } from './GitManager.js';
 import { readdir } from 'fs/promises';
 import { resolve } from 'path';
 import { ESLint } from 'eslint';
-import { GitManager } from './GitManager.js';
-import { StateDirectoryDescriptor } from './StateDirectoryDescriptor.js';
 import LintResult = ESLint.LintResult;
 
 export async function lintforDescriptor(descriptor: StateDirectoryDescriptor, gitManager: GitManager): Promise<void> {

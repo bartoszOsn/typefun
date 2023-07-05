@@ -1,6 +1,6 @@
-import { resolve } from 'path';
 import { normalizeStateDescriptor, StateDirectoryDescriptor } from './StateDirectoryDescriptor.js';
 import { getFiles, readJson } from './utils.js';
+import { resolve } from 'path';
 import { GitManager } from './GitManager.js';
 import { lintforDescriptor } from './lintforDescriptor.js';
 
@@ -19,12 +19,12 @@ async function main(): Promise<void> {
 	const gitManager = new GitManager(baseCommit, headCommit);
 	const descriptors = await getStateDescriptors();
 
-	for (const descriptor of descriptors) {
+	for (let descriptor of descriptors) {
 		await lintforDescriptor(descriptor, gitManager);
 	}
 }
 
-async function getStateDescriptors(): Promise<Array<StateDirectoryDescriptor>> {
+async function getStateDescriptors(): Promise<StateDirectoryDescriptor[]> {
 	const descriptorFiles = await getFiles(process.cwd())
 		.then(files => files.filter(file => file.endsWith('.stateversions.json')));
 

@@ -62,7 +62,7 @@ export const useDevToolsPanelStore = defineStore('devToolsPanel', {
 				scriptsStore.setCode(currentScriptId, code);
 			}
 		},
-		addIgnoresToCurrentScript(ignores: Array<number>) {
+		addIgnoresToCurrentScript(ignores: number[]) {
 			const currentScriptId = this.currentScriptId;
 			if (currentScriptId !== null) {
 				const scriptsStore = useScriptsStore();

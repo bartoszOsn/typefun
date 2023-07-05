@@ -1,7 +1,7 @@
-import browser from 'webextension-polyfill';
 import { loadScriptsStoreStateFromStorage } from '../../global-store/loadScriptsStoreStateFromStorage';
-import { isExecuteScriptMessage } from '../ExecuteScriptMessage';
 import { executeScriptInContentScript } from './executeScriptInContentScript';
+import { isExecuteScriptMessage } from '../ExecuteScriptMessage';
+import browser from 'webextension-polyfill';
 
 export {};
 
@@ -15,12 +15,12 @@ export {};
 		return;
 	}
 
-	for (const script of scripts) {
+	for (let script of scripts) {
 		executeScriptInContentScript(script.code.compiled);
 	}
 })().then();
 
-function listenForScriptExecutionRequests(): void {
+function listenForScriptExecutionRequests() {
 	browser.runtime.onMessage.addListener((message) => {
 		if (isExecuteScriptMessage(message)) {
 			executeScriptInContentScript(message.script);

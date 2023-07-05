@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { editor } from 'monaco-editor';
-import { ref } from 'vue';
 import IMarker = editor.IMarker;
+import { ref } from 'vue';
 
 const componentProps = defineProps<{
 	disabled: boolean;
@@ -17,7 +17,7 @@ const emits = defineEmits<{
 
 const saveInlineDialogShown = ref(false);
 
-const onSave = (): void => {
+const onSave = () => {
 	if (componentProps.errors.length > 0) {
 		saveInlineDialogShown.value = true;
 	} else {
@@ -26,7 +26,7 @@ const onSave = (): void => {
 	}
 };
 
-const addIgnoreAndSave = (): void => {
+const addIgnoreAndSave = () => {
 	emits('save', true);
 	saveInlineDialogShown.value = false;
 };
