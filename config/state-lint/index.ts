@@ -6,7 +6,8 @@ import { lintforDescriptor } from './lintforDescriptor.js';
 
 main()
 	.catch(error => {
-		throw error;
+		console.error(error);
+		process.exit(1);
 	})
 	.then();
 
