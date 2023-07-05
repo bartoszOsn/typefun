@@ -1,6 +1,6 @@
 import { readdir, stat, readFile } from 'node:fs/promises';
-import { resolve } from 'path';
 import { exec } from 'child_process';
+import { resolve } from 'path';
 
 export async function getFiles(dir) {
 	const subdirs = await readdir(dir);
