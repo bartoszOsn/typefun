@@ -4,7 +4,11 @@ import { resolve } from 'path';
 import { GitManager } from './GitManager.js';
 import { lintforDescriptor } from './lintforDescriptor.js';
 
-main().then();
+main()
+	.catch(error => {
+		throw error;
+	})
+	.then();
 
 async function main(): Promise<void> {
 	const baseCommit = process.argv[2];
