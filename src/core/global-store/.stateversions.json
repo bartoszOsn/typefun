@@ -1,0 +1,5 @@
+{
+	"versions": "./versions",
+	"anyVersionsFile": "./ScriptsStoreState.ts",
+	"versionsTuple": "StateVersions"
+}

@@ -1,4 +1,4 @@
-import { ts } from 'ts-services';
+import * as ts from 'typescript';
 
 export function compileTs(code: string): string {
 	return ts.transpile(

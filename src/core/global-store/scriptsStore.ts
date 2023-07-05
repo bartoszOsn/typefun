@@ -1,24 +1,11 @@
 import { defineStore } from 'pinia';
 import { compileTs } from '../ts-compilator/compileTs';
-import { ScriptsStoreState } from './ScriptsStoreState';
+import { migrate, ScriptsStoreState } from './ScriptsStoreState';
 import { scriptsStoreId } from './scriptsStoreId';
 
-const initialState: ScriptsStoreState = {
-	nextScriptId: 1,
-	scripts: [
-		{
-			id: 0,
-			name: 'Hello World!',
-			urlPattern: 'google.com/.*',
-			code: {
-				raw: '',
-				compiled: '',
-				draft: '',
-				modified: false
-			}
-		}
-	],
-}
+const initialState: ScriptsStoreState = migrate({
+	version: 0
+});
 
 export const useScriptsStore = defineStore(scriptsStoreId, {
 	state: () => ({ ...initialState }),

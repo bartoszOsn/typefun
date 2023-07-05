@@ -1,5 +1,7 @@
 import { PiniaPluginContext, StateTree } from 'pinia';
 import browser from 'webextension-polyfill';
+import { Migrate } from '@/utils/state-versioning/migrate';
+import { AnyState, BaseStateList } from '@/utils/state-versioning';
 
 const storeActionMessageType = 'store-action';
 
@@ -10,7 +12,7 @@ declare module 'pinia' {
 	}
 }
 
-export const storePlugin = (context: PiniaPluginContext): void => {
+export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPluginContext): void => {
 	let invokingExternalAction = false;
 
 	loadStoreFromStorage();
@@ -63,7 +65,11 @@ export const storePlugin = (context: PiniaPluginContext): void => {
 
 	function loadStoreFromStorage(): void {
 		browser.storage.local.get(context.store.$id).then((store) => {
-			context.store.$patch(store[context.store.$id]);
+			const initialState = store[context.store.$id];
+			if (initialState) {
+				const state = migrate(initialState);
+				context.store.$patch(state as any);
+			}
 		});
 	}
 }

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
 import * as monaco from 'monaco-editor';
-import { editor, MarkerSeverity } from 'monaco-editor';
-import 'typescript/lib/typescriptServices';
 import { onMounted, ref, watch } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
