@@ -1,17 +1,17 @@
+import * as Path from 'path';
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { tsServicesPlugin } from './tsServicesPlugin';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { domainEnforcerPlugin } from './domainEnforcerPlugin';
 import checker from 'vite-plugin-checker';
-import * as Path from 'path';
+import { tsServicesPlugin } from './tsServicesPlugin';
+import { domainEnforcerPlugin } from './domainEnforcerPlugin';
 
 const root = Path.resolve(__dirname, '../');
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		tsconfigPaths({ root: root, loose: true}),
+		tsconfigPaths({ root, loose: true }),
 		vue(),
 		tsServicesPlugin(),
 		domainEnforcerPlugin([
@@ -37,7 +37,7 @@ export default defineConfig({
 			}
 		]),
 		checker({ vueTsc: {
-			root: root
-		}})
+			root
+		} })
 	],
 })

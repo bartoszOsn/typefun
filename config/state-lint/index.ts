@@ -1,21 +1,31 @@
+import { resolve } from 'path';
 import { normalizeStateDescriptor, StateDirectoryDescriptor } from './StateDirectoryDescriptor.js';
 import { getFiles, readJson } from './utils.js';
-import { resolve } from 'path';
 import { GitManager } from './GitManager.js';
 import { lintforDescriptor } from './lintforDescriptor.js';
 
-main().then();
+main()
+	.catch(error => {
+		console.error(error);
+		process.exit(1);
+	})
+	.then();
 
 async function main(): Promise<void> {
-	const gitManager = new GitManager();
+	const baseCommit = process.argv[2];
+	const headCommit = process.argv[3];
+
+	console.log(`Linting state changes between ${baseCommit} and ${headCommit}`);
+
+	const gitManager = new GitManager(baseCommit, headCommit);
 	const descriptors = await getStateDescriptors();
 
-	for (let descriptor of descriptors) {
+	for (const descriptor of descriptors) {
 		await lintforDescriptor(descriptor, gitManager);
 	}
 }
 
-async function getStateDescriptors(): Promise<StateDirectoryDescriptor[]> {
+async function getStateDescriptors(): Promise<Array<StateDirectoryDescriptor>> {
 	const descriptorFiles = await getFiles(process.cwd())
 		.then(files => files.filter(file => file.endsWith('.stateversions.json')));
 

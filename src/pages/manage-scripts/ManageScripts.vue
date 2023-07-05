@@ -1,15 +1,15 @@
 <script lang="ts" setup="">
 
+import { ref } from 'vue';
+import { editor } from 'monaco-editor';
+import ScriptListItem from './ScriptListItem.vue';
+import IMarker = editor.IMarker;
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
-import { ref } from 'vue';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
-import ScriptListItem from './ScriptListItem.vue';
-import { editor } from 'monaco-editor';
-import IMarker = editor.IMarker;
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
 
 const scriptsStore = useScriptsStore();
@@ -91,7 +91,7 @@ const showDiff = (diff: boolean): void => {
 		</v-navigation-drawer>
 		<v-main class="main-container">
 			<template v-if="manageScriptsStore.currentScript">
-				<editor v-if="!isDiffView"
+				<Editor v-if="!isDiffView"
 						:code="manageScriptsStore.currentScript.code.draft"
 						@update:code="updateCode"
 						@update:errors="(errors) => editorErrors = errors" />

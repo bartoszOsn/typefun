@@ -2,13 +2,13 @@ import { readdir, stat, readFile } from 'node:fs/promises';
 import { resolve } from 'path';
 import { exec } from 'child_process';
 
-export async function getFiles(dir) {
+export async function getFiles(dir): Promise<Array<string>> {
 	const subdirs = await readdir(dir);
 	const files = await Promise.all(subdirs.map(async (subdir) => {
 		const res = resolve(dir, subdir);
 		return (await stat(res)).isDirectory() ? getFiles(res) : res;
 	}));
-	return files.reduce((a, f) => a.concat(f), []);
+	return files.reduce((a: Array<string>, f: Array<string>) => a.concat(f), []) as Array<string>;
 }
 
 export async function readJson<TFile extends {}>(path: string): Promise<TFile> {

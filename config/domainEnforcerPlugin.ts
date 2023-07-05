@@ -1,10 +1,10 @@
-import { Plugin } from 'vite';
 import * as Path from 'path';
+import { Plugin } from 'vite';
 
 export interface DomainOptions {
 	name: string;
 	path: string;
-	allowed: Array<string>
+	allowed: Array<string>;
 }
 
 export function domainEnforcerPlugin(domains: Array<DomainOptions>): Plugin {
@@ -19,13 +19,13 @@ export function domainEnforcerPlugin(domains: Array<DomainOptions>): Plugin {
 function validateDomainOptions(domains: Array<DomainOptions>): void {
 	const domainNames = new Set(domains.map(domain => domain.name));
 
-	for (let domain of domains) {
+	for (const domain of domains) {
 
 		if (!Path.isAbsolute(domain.path)) {
 			throw new Error(`Domain "${domain.name}" path "${domain.path}" isn't absolute`);
 		}
 
-		for (let allowedDomain of domain.allowed) {
+		for (const allowedDomain of domain.allowed) {
 			if (!domainNames.has(allowedDomain)) {
 				throw new Error(`Domain "${allowedDomain}" isn't defined. Used in "${domain}"`);
 			}
@@ -94,6 +94,6 @@ function validateDomains(absoluteId: string, importer: string, domains: Array<Do
 }
 
 function getDomain(absoluteId: string, domains: Array<DomainOptions>): DomainOptions | null {
-	absoluteId = Path.normalize(absoluteId);
-	return domains.find(domain => absoluteId.startsWith(domain.path)) ?? null;
+	const normalized = Path.normalize(absoluteId);
+	return domains.find(domain => normalized.startsWith(domain.path)) ?? null;
 }

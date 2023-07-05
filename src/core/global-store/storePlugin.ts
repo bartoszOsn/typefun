@@ -1,7 +1,6 @@
 import { PiniaPluginContext, StateTree } from 'pinia';
 import browser from 'webextension-polyfill';
 import { Migrate } from '@/utils/state-versioning/migrate';
-import { AnyState, BaseStateList } from '@/utils/state-versioning';
 
 const storeActionMessageType = 'store-action';
 
@@ -12,6 +11,7 @@ declare module 'pinia' {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-function-return-type
 export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPluginContext): void => {
 	let invokingExternalAction = false;
 
@@ -68,6 +68,7 @@ export const storePlugin = (migrate: Migrate<any, any>) => (context: PiniaPlugin
 			const initialState = store[context.store.$id];
 			if (initialState) {
 				const state = migrate(initialState);
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				context.store.$patch(state as any);
 			}
 		});

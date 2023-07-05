@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import browser from 'webextension-polyfill';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 
 export const useManageScriptsStore = defineStore('manageScriptsStore', {
@@ -42,7 +41,7 @@ export const useManageScriptsStore = defineStore('manageScriptsStore', {
 				scriptsStore.revertCode(currentScriptId);
 			}
 		},
-		addIgnoresToCurrentScript(ignores: number[]) {
+		addIgnoresToCurrentScript(ignores: Array<number>) {
 			const currentScriptId = this.currentScriptId;
 			if (currentScriptId !== null) {
 				const scriptsStore = useScriptsStore();

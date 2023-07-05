@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { ref, watchEffect } from 'vue';
+import browser from 'webextension-polyfill';
+import { editor } from 'monaco-editor';
+import IMarker = editor.IMarker;
 import Editor from '@/core/script-editor/ScriptEditor.vue';
 import SnackbarContainer from '@/core/snackbar-manager/SnackbarContainer.vue';
 import { useDevToolsPanelStore } from '@/feature/devtools-panel-store/devToolsPanelStore';
@@ -7,13 +11,9 @@ import { compileTs } from '@/core/ts-compilator/compileTs';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
-import { ref, watch, watchEffect } from 'vue';
 import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import { executeScript } from '@/core/script-executor/executeScript';
-import browser from 'webextension-polyfill';
-import { editor } from 'monaco-editor';
-import IMarker = editor.IMarker;
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
 
 const scriptsStore = useScriptsStore();
@@ -64,7 +64,7 @@ const saveScript = (addIgnores: boolean): void => {
 const selectScript = (scriptId: Array<unknown>): void => {
 	const firstId = scriptId[0];
 
-	if (typeof firstId != 'number') {
+	if (typeof firstId !== 'number') {
 		throw new Error('Script id is not a number');
 	}
 
@@ -127,7 +127,7 @@ const showDiff = (diff: boolean): void => {
 					</template>
 				</v-app-bar>
 				<v-main class="main-container">
-					<editor v-if="!isDiffView"
+					<Editor v-if="!isDiffView"
 							:code="devToolsPanelStore.currentScript?.code.draft ?? ''"
 							@update:code="(code) => devToolsPanelStore.setCurrentScriptCode(code)"
 							@update:errors="(errors) => editorErrors = errors" />
