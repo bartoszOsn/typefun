@@ -5,6 +5,7 @@ export interface State1 extends BaseState<1> {
 	scripts: Array<Script>;
 }
 
+console.log('dupa');
 export interface Script {
 	id: number;
 	name: string;

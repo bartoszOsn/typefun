@@ -14,5 +14,5 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install
       - run: yarn dev # change to build when it will be working
-      - run: yarn lint
       - run: yarn lint:state ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+      - run: yarn lint
