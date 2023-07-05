@@ -33,7 +33,7 @@ export class GitManager {
 		const gitRoot = (await execAsync('git rev-parse --show-toplevel')).trim();
 
 		const bashOutput =
-			await execAsync(`git --no-pager diff ${this.baseCommit}^..${this.headCommit} --name-status`);
+			await execAsync(`git --no-pager diff ${this.baseCommit}..${this.headCommit} --name-status`);
 		return bashOutput.split('\n')
 			.filter(line => line.startsWith('M\t') || line.startsWith('A\t') || line.startsWith('D\t'))
 			.map(line => line.split('\t') as ['M' | 'A' | 'D', string])
