@@ -97,3 +97,8 @@ watch(() => props.code, () => {
 	flex-grow: 1;
 }
 </style>
+<style>
+.editor .monaco-hover {
+	z-index: 10000;
+}
+</style>

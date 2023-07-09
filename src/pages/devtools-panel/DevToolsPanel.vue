@@ -11,10 +11,10 @@ import { compileTs } from '@/core/ts-compilator/compileTs';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
-import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import { executeScript } from '@/core/script-executor/executeScript';
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
+import ProductWordmark from '@/core/theme/ProductWordmark.vue';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
@@ -61,14 +61,8 @@ const saveScript = (addIgnores: boolean): void => {
 	devToolsPanelStore.saveCurrentScript();
 }
 
-const selectScript = (scriptId: Array<unknown>): void => {
-	const firstId = scriptId[0];
-
-	if (typeof firstId !== 'number') {
-		throw new Error('Script id is not a number');
-	}
-
-	devToolsPanelStore.setCurrentScriptId(firstId);
+const selectScript = (scriptId: number): void => {
+	devToolsPanelStore.setCurrentScriptId(scriptId);
 }
 
 const showDiff = (diff: boolean): void => {
@@ -85,24 +79,17 @@ const showDiff = (diff: boolean): void => {
 			<template v-else>
 				<v-app-bar>
 					<v-app-bar-title>
-						<template v-slot:text>
-							<span>{{ devToolsPanelStore.currentScript?.name }}</span>
-							<ModifiedDot v-if="devToolsPanelStore.currentScript?.code.modified" />
-						</template>
-
-						<v-menu>
-							<template v-slot:activator="{ props }">
-								<v-btn icon="mdi-chevron-down" v-bind="props"></v-btn>
-							</template>
-							<v-list :items="devToolsPanelStore.applicableScripts"
-									item-title="name"
-									item-value="id"
-									:selected="[devToolsPanelStore.currentScriptId]"
-									mandatory
-									@update:selected="selectScript">
-							</v-list>
-						</v-menu>
+						<ProductWordmark :hide-wordmark-width="750" />
 					</v-app-bar-title>
+					<v-select :items="devToolsPanelStore.applicableScripts"
+							  label="Script"
+							  density="compact"
+							  class="script-select"
+							  item-title="name"
+							  item-value="id"
+							  :model-value="devToolsPanelStore.currentScriptId"
+							  @update:modelValue="selectScript">
+					</v-select>
 					<template v-slot:append>
 						<VersionControllButtons :disabled="!devToolsPanelStore.currentScript?.code.modified"
 												:errors="editorErrors"
@@ -145,5 +132,10 @@ const showDiff = (diff: boolean): void => {
 		display: flex;
 		align-items: stretch;
 		justify-content: stretch;
+	}
+
+	.script-select {
+		margin-top: 24px;
+		max-width: 300px;
 	}
 </style>
