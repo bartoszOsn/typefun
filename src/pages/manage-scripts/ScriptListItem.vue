@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
+import ModifiedDot from '@/utils/modifiedDot.vue';
 
 const props = defineProps<{
 	currentScriptId: number;

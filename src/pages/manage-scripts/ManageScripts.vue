@@ -8,7 +8,6 @@ import Editor from '@/core/script-editor/ScriptEditor.vue';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
-import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
 import Wordmark from '@/core/theme/Wordmark.vue';
