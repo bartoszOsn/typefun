@@ -10,7 +10,7 @@ import NewScriptModal from '@/core/new-script-modal/NewScriptModal.vue';
 import { useManageScriptsStore } from '@/feature/manage-scripts-store/manageScriptsStore';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
-import Wordmark from '@/core/theme/Wordmark.vue';
+import ProductWordmark from '@/core/theme/ProductWordmark.vue';
 
 const scriptsStore = useScriptsStore();
 const manageScriptsStore = useManageScriptsStore();
@@ -59,7 +59,7 @@ const showDiff = (diff: boolean): void => {
 	<v-app>
 		<v-app-bar app>
 			<v-toolbar-title>
-				<Wordmark :hide-wordmark-width="315" />
+				<ProductWordmark :hide-wordmark-width="315" />
 			</v-toolbar-title>
 			<template v-slot:append>
 				<VersionControllButtons :disabled="!manageScriptsStore.currentScript?.code.modified"

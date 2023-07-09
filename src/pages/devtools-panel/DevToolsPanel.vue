@@ -11,11 +11,10 @@ import { compileTs } from '@/core/ts-compilator/compileTs';
 import { openManageScript } from '@/core/navigation/openManageScript';
 import { useScriptsStore } from '@/core/global-store/scriptsStore';
 import NoApplicableScriptSplashScreen from '@/feature/devtools-splash/NoApplicableScriptSplashScreen.vue';
-import ModifiedDot from '@/utils/modifiedDot.vue';
 import VersionControllButtons from '@/core/version-control-buttons/VersionControllButtons.vue';
 import { executeScript } from '@/core/script-executor/executeScript';
 import ScriptDiffEditor from '@/core/script-editor/ScriptDiffEditor.vue';
-import Wordmark from '@/core/theme/Wordmark.vue';
+import ProductWordmark from '@/core/theme/ProductWordmark.vue';
 
 const scriptsStore = useScriptsStore();
 const devToolsPanelStore = useDevToolsPanelStore();
@@ -80,7 +79,7 @@ const showDiff = (diff: boolean): void => {
 			<template v-else>
 				<v-app-bar>
 					<v-app-bar-title>
-						<wordmark :hide-wordmark-width="750" />
+						<ProductWordmark :hide-wordmark-width="750" />
 					</v-app-bar-title>
 					<v-select :items="devToolsPanelStore.applicableScripts"
 							  label="Script"

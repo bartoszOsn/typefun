@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import Logo from './Logo.vue';
-import { useBrowserWitdh } from '@/utils/useBrowserWitdh';
 import { computed } from 'vue';
+import ProductLogo from './ProductLogo.vue';
+import { useBrowserWitdh } from '@/utils/useBrowserWitdh';
 
 const props = defineProps<{
 	hideWordmarkWidth: number;
@@ -15,7 +15,7 @@ const showWordmark = computed(() => browserWidth.value > props.hideWordmarkWidth
 
 <template>
 	<div class="wordmark-container">
-		<Logo color="#476C9B" class="logo" />
+		<ProductLogo color="#476C9B" class="logo" />
 		<span v-if="showWordmark" class="wordmark">TypeFun</span>
 	</div>
 </template>

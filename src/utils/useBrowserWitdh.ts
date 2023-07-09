@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, Ref } from 'vue';
 export function useBrowserWitdh(): Ref<number> {
 	const width = ref(window.innerWidth);
 
-	function handleResize() {
+	function handleResize(): void {
 		width.value = window.innerWidth;
 	}
 
